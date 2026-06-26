@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<title>SoundFork</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+:root {
+  --bg-body:#0d0d0d;
+  --bg-card:#141414;
+  --bg-surface:#1a1a1a;
+  --bg-input:rgba(255,255,255,.04);
+  --bg-input-focus:rgba(255,255,255,.07);
+  --bg-overlay:rgba(0,0,0,.7);
+  --bg-hover:rgba(255,255,255,.02);
+  --bg-hover-strong:rgba(255,255,255,.03);
+  --bg-elevated:rgba(255,255,255,.06);
+  --text-primary:#fff;
+  --text-heading:#f0f0f0;
+  --text-body:#d4d4d4;
+  --text-secondary:#e0e0e0;
+  --text-muted:#888;
+  --text-muted-2:#555;
+  --text-muted-3:#666;
+  --text-muted-4:#ccc;
+  --text-muted-5:#aaa;
+  --text-muted-6:#777;
+  --text-muted-7:#444;
+  --text-muted-8:#333;
+  --text-muted-9:#d0d0d0;
+  --border-default:rgba(255,255,255,.04);
+  --border-card:rgba(255,255,255,.05);
+  --border-modal:rgba(255,255,255,.07);
+  --border-input:rgba(255,255,255,.08);
+  --border-hover:rgba(255,255,255,.1);
+  --border-strong:rgba(255,255,255,.12);
+  --border-focus:rgba(255,255,255,.2);
+  --border-focus-strong:rgba(255,255,255,.25);
+  --btn-primary-bg:#fff;
+  --btn-primary-text:#0d0d0d;
+  --btn-primary-hover:#e0e0e0;
+  --btn-secondary-bg:rgba(255,255,255,.06);
+  --btn-secondary-text:#ccc;
+  --btn-secondary-border:rgba(255,255,255,.08);
+  --btn-secondary-hover-bg:rgba(255,255,255,.1);
+  --btn-secondary-hover-text:#fff;
+  --btn-ghost-text:#888;
+  --btn-ghost-hover-bg:rgba(255,255,255,.04);
+  --btn-ghost-hover-text:#fff;
+  --btn-danger-bg:#b91c1c;
+  --btn-danger-hover:#991b1b;
+  --scrollbar-track:#0d0d0d;
+  --scrollbar-thumb:#2a2a2a;
+  --header-bg:rgba(13,13,13,.9);
+  --player-bg:#141414;
+  --player-border:rgba(255,255,255,.06);
+  --player-thumb:#fff;
+  --volume-thumb:#888;
+  --placeholder:#2a2a2a;
+  --selection-bg:rgba(255,255,255,.15);
+  --accent:#4a9eff;
+  --badge-published:#2ecc71;
+  --badge-archived:#555;
+  --badge-draft:#888;
+  --footer-text:#333;
+  --footer-border:rgba(255,255,255,.03);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5);
+  --shadow:0 1px 4px rgba(0,0,0,.5);
+  --shadow-sm-2:0 1px 2px rgba(0,0,0,.4);
+  --card-gradient:rgba(0,0,0,.55);
+  --card-actions-bg:rgba(0,0,0,.45);
+  --card-actions-hover-bg:rgba(0,0,0,.65);
+  --card-actions-text:rgba(255,255,255,.7);
+  --text-on-card:rgba(255,255,255,.45);
+  --text-on-card-meta:rgba(255,255,255,.5);
+  --icon-muted:rgba(255,255,255,.3);
+  --icon-stronger:rgba(255,255,255,.35);
+  --notif-info-bg:#1a1a1a;
+  --notif-info-border:rgba(255,255,255,.1);
+  --notif-info-text:#ccc;
+  --notif-success-bg:#0d2818;
+  --notif-success-border:#1a4a2e;
+  --notif-success-text:#4ade80;
+  --notif-error-bg:#2a0d0d;
+  --notif-error-border:#5c1a1a;
+  --notif-error-text:#f87171;
+}
+html.theme-light {
+  --bg-body:#f0f4f8;
+  --bg-card:#ffffff;
+  --bg-surface:#f8fafc;
+  --bg-input:#ffffff;
+  --bg-input-focus:#f8faff;
+  --bg-overlay:rgba(0,0,0,.35);
+  --bg-hover:rgba(0,0,0,.02);
+  --bg-hover-strong:rgba(0,0,0,.03);
+  --bg-elevated:rgba(0,0,0,.06);
+  --text-primary:#0f172a;
+  --text-heading:#0f172a;
+  --text-body:#334155;
+  --text-secondary:#1e293b;
+  --text-muted:#94a3b8;
+  --text-muted-2:#cbd5e1;
+  --text-muted-3:#64748b;
+  --text-muted-4:#475569;
+  --text-muted-5:#64748b;
+  --text-muted-6:#94a3b8;
+  --text-muted-7:#94a3b8;
+  --text-muted-8:#64748b;
+  --text-muted-9:#1e293b;
+  --border-default:rgba(0,0,0,.06);
+  --border-card:rgba(0,0,0,.08);
+  --border-modal:rgba(0,0,0,.1);
+  --border-input:rgba(0,0,0,.12);
+  --border-hover:rgba(0,0,0,.15);
+  --border-strong:rgba(0,0,0,.18);
+  --border-focus:rgba(0,0,0,.25);
+  --border-focus-strong:rgba(0,0,0,.3);
+  --btn-primary-bg:#2563eb;
+  --btn-primary-text:#ffffff;
+  --btn-primary-hover:#1d4ed8;
+  --btn-secondary-bg:rgba(0,0,0,.04);
+  --btn-secondary-text:#475569;
+  --btn-secondary-border:rgba(0,0,0,.1);
+  --btn-secondary-hover-bg:rgba(0,0,0,.08);
+  --btn-secondary-hover-text:#0f172a;
+  --btn-ghost-text:#94a3b8;
+  --btn-ghost-hover-bg:rgba(0,0,0,.04);
+  --btn-ghost-hover-text:#0f172a;
+  --btn-danger-bg:#b91c1c;
+  --btn-danger-hover:#991b1b;
+  --scrollbar-track:#f0f4f8;
+  --scrollbar-thumb:#cbd5e1;
+  --header-bg:rgba(255,255,255,.95);
+  --player-bg:#ffffff;
+  --player-border:rgba(0,0,0,.08);
+  --player-thumb:#2563eb;
+  --volume-thumb:#64748b;
+  --placeholder:#cbd5e1;
+  --selection-bg:rgba(37,99,235,.2);
+  --accent:#2563eb;
+  --badge-published:#16a34a;
+  --badge-archived:#94a3b8;
+  --badge-draft:#94a3b8;
+  --footer-text:#64748b;
+  --footer-border:rgba(0,0,0,.06);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow:0 1px 4px rgba(0,0,0,.08);
+  --shadow-sm-2:0 1px 2px rgba(0,0,0,.05);
+  --card-gradient:rgba(0,0,0,.55);
+  --card-actions-bg:rgba(0,0,0,.5);
+  --card-actions-hover-bg:rgba(0,0,0,.65);
+  --card-actions-text:#fff;
+  --text-on-card:rgba(255,255,255,.85);
+  --text-on-card-meta:rgba(255,255,255,.6);
+  --icon-muted:rgba(255,255,255,.5);
+  --icon-stronger:rgba(255,255,255,.6);
+  --notif-info-bg:#f8fafc;
+  --notif-info-border:rgba(0,0,0,.1);
+  --notif-info-text:#475569;
+  --notif-success-bg:#f0fdf4;
+  --notif-success-border:#86efac;
+  --notif-success-text:#16a34a;
+  --notif-error-bg:#fef2f2;
+  --notif-error-border:#fecaca;
+  --notif-error-text:#dc2626;
+}
+html.theme-light input,html.theme-light textarea,html.theme-light select{color-scheme:light}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-body);color:var(--text-body);line-height:1.5;min-height:100vh;padding-bottom:72px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--selection-bg);color:var(--text-primary)}
+input,textarea,select{color-scheme:dark}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--scrollbar-track)}
+::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb)}
+h1,h2,h3{font-weight:700;color:var(--text-heading);line-height:1.15}
+h1{font-size:clamp(1.3rem,3.5vw,2rem)}
+code,.mono{font-family:'JetBrains Mono',monospace;font-size:.85em}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* notification */
+#notification{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:99999;padding:10px 22px;font-size:.82rem;font-weight:500;display:none;max-width:90vw;text-align:center;pointer-events:none}
+#notification.show{display:block}
+#notification.info{background:var(--notif-info-bg);border:1px solid var(--notif-info-border);color:var(--notif-info-text)}
+#notification.success{background:var(--notif-success-bg);border:1px solid var(--notif-success-border);color:var(--notif-success-text)}
+#notification.error{background:var(--notif-error-bg);border:1px solid var(--notif-error-border);color:var(--notif-error-text)}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* auth */
+#authSection{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.auth-inner{width:100%;max-width:380px;animation:fadeIn .5s ease}
+.auth-title{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:800;color:var(--text-primary);margin-bottom:4px;letter-spacing:-.02em}
+.auth-sub{color:var(--text-muted-3);margin-bottom:24px;font-size:.82rem}
+.auth-card{background:var(--bg-card);border:1px solid var(--border-modal);padding:24px}
+.auth-tabs{display:flex;margin-bottom:16px;border-bottom:1px solid var(--bg-elevated)}
+.auth-tab{flex:1;padding:10px;text-align:center;background:none;border:none;color:var(--text-muted-2);font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s;text-transform:uppercase;letter-spacing:.06em}
+.auth-tab:hover{color:var(--text-muted-5)}
+.auth-tab.active{color:var(--text-primary);border-bottom-color:var(--text-primary)}
+.auth-form{display:block}
+.auth-form.d-none{display:none}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted-6);margin-bottom:4px;font-weight:600}
+.form-input{width:100%;padding:10px 12px;background:var(--bg-input);border:1px solid var(--border-input);color:var(--text-secondary);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.form-input:focus{background:var(--bg-input-focus);border-color:var(--border-focus)}
+.form-input::placeholder{color:var(--text-muted-2)}
+select.form-input{cursor:pointer;-webkit-appearance:none!important;-moz-appearance:none!important;appearance:none!important;padding-right:30px;text-overflow:ellipsis}
+select.form-input option{background:#fff;color:#111}
+html.theme-light select.form-input option{background:#fff;color:#111}
+.select-wrap{position:relative;display:block}
+.select-wrap::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:10px;height:10px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M2 3.5l3 4 3-4'/%3E%3C/svg%3E") center/contain no-repeat}
+html.theme-light .select-wrap::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23475569' d='M2 3.5l3 4 3-4'/%3E%3C/svg%3E")}
+textarea.form-input{resize:vertical;min-height:60px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;border:none;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.04em;justify-content:center;white-space:nowrap}
+.btn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-text)}
+.btn-primary:hover{background:var(--btn-primary-hover)}
+.btn-secondary{background:var(--btn-secondary-bg);color:var(--btn-secondary-text);border:1px solid var(--btn-secondary-border)}
+.btn-secondary:hover{background:var(--btn-secondary-hover-bg);color:var(--btn-secondary-hover-text)}
+.btn-danger{background:var(--btn-danger-bg);color:#fff}
+.btn-danger:hover{background:var(--btn-danger-hover)}
+.btn-ghost{background:transparent;color:var(--btn-ghost-text);padding:7px 10px}
+.btn-ghost:hover{color:var(--btn-ghost-hover-text);background:var(--btn-ghost-hover-bg)}
+.btn-sm{padding:6px 10px;font-size:.7rem}
+.btn-icon{padding:7px;min-width:34px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* header */
+#mainHeader{padding:10px 0;border-bottom:1px solid var(--border-default);background:var(--header-bg);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.header-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 20px}
+.header-brand{font-size:.95rem;font-weight:800;color:var(--text-primary);letter-spacing:-.02em}
+.header-brand small{font-weight:400;color:var(--text-muted-2);font-size:.62rem}
+.header-right{display:flex;align-items:center;gap:10px}
+.header-user{display:flex;align-items:center;gap:6px;font-size:.78rem}
+.header-avatar{width:26px;height:26px;background:var(--border-input);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--text-muted-5);overflow:hidden;flex-shrink:0}
+.header-role{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border:1px solid var(--border-input);color:var(--text-muted)}
+.notif-panel{position:absolute;top:100%;right:0;width:340px;max-height:400px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:100;overflow:hidden;margin-top:6px}
+.notif-panel-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border-default)}
+.notif-panel-list{overflow-y:auto;max-height:340px}
+.notif-item{padding:10px 12px;border-bottom:1px solid var(--border-card);display:flex;gap:8px;align-items:flex-start;font-size:.76rem;line-height:1.35;color:var(--text-primary)}
+.notif-item:last-child{border-bottom:none}
+.notif-item .notif-text{flex:1;min-width:0}
+.notif-item .notif-time{font-size:.62rem;color:var(--text-muted-2);margin-top:2px}
+.notif-item .notif-dismiss{font-size:.68rem;padding:2px 4px;color:var(--text-muted);cursor:pointer;background:none;border:none;flex-shrink:0}
+.notif-item .notif-dismiss:hover{color:var(--btn-danger-bg)}
+.notif-empty{padding:20px;text-align:center;color:var(--text-muted-2);font-size:.78rem}
+
+/* hero */
+.hero{padding:24px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.hero-left h1{color:var(--text-primary);margin-bottom:2px}
+.hero-left p{color:var(--text-muted-3);font-size:.82rem}
+.hero-stats{display:flex;gap:20px;align-items:flex-end}
+.hero-stat-num{font-size:1.3rem;font-weight:800;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.hero-stat-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted-2);margin-top:1px}
+
+/* tabs */
+.app-tabs{display:flex;margin-bottom:16px;border-bottom:1px solid var(--border-default)}
+.app-tab{padding:10px 18px;background:none;border:none;color:var(--text-muted-2);font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid transparent;transition:color .2s}
+.app-tab:hover{color:var(--text-muted-5)}
+.app-tab.active{color:var(--text-primary);border-bottom-color:var(--text-primary)}
+.app-tab-panel{display:none;animation:fadeIn .3s ease}
+.app-tab-panel.active{display:block}
+
+/* project grid */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{background:var(--bg-card);border:1px solid var(--border-card);margin-bottom:12px}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border-default);font-weight:600;font-size:.82rem;color:var(--text-secondary)}
+.card-body{padding:14px}
+.empty{text-align:center;padding:40px 20px;color:var(--text-muted-2);font-size:.82rem}
+.empty i{font-size:1.4rem;margin-bottom:8px;display:block;color:var(--text-muted-8)}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;z-index:9990;background:var(--bg-overlay);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg-card);border:1px solid var(--border-modal);width:100%;max-width:740px;max-height:90vh;display:flex;flex-direction:column}
+.modal-lg{max-width:880px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-default);font-weight:700;font-size:.9rem;color:var(--text-heading)}
+.modal-close{background:none;border:none;color:var(--text-muted-2);font-size:1.1rem;cursor:pointer;padding:2px 6px;transition:color .2s}
+.modal-close:hover{color:var(--text-primary)}
+.modal-body{padding:18px;overflow-y:auto;flex:1}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--border-default)}
+
+/* project detail */
+.proj-detail-header{margin-bottom:16px}
+.proj-detail-title{font-size:1.2rem;font-weight:800;color:var(--text-primary);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.proj-detail-meta{font-size:.78rem;color:var(--text-muted-3);display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.proj-detail-desc{font-size:.82rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5}
+.proj-detail-actions{display:flex;gap:6px;flex-wrap:wrap;padding:12px 0;border-top:1px solid var(--border-default);border-bottom:1px solid var(--border-default);margin-bottom:14px}
+.proj-detail-stats{display:flex;gap:20px;margin-bottom:14px;font-size:.75rem}
+.proj-detail-stats span{color:var(--text-muted)}
+.proj-detail-stats strong{color:var(--text-secondary);font-weight:700}
+
+/* version timeline */
+.version-item{border:1px solid var(--border-default);margin-bottom:6px}
+.version-header{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;transition:background .15s;border:none;background:none;width:100%;text-align:left;color:var(--text-muted-4);font-family:'Inter',sans-serif;font-size:.8rem}
+.version-header:hover{background:var(--bg-hover-strong)}
+.version-delete{margin-left:auto;color:var(--text-muted-2);font-size:.75rem;padding:2px 6px;cursor:pointer;transition:color .15s;border-radius:4px}
+.version-delete:hover{color:var(--btn-danger-bg);background:var(--bg-hover-strong)}
+.version-number{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:2px 6px;border:1px solid var(--border-input);color:var(--text-muted-6);white-space:nowrap}
+.version-message{flex:1;font-weight:500;color:var(--text-secondary);text-align:left;font-size:.78rem}
+.version-meta{font-size:.68rem;color:var(--text-muted-2);white-space:nowrap}
+.version-author-link{color:var(--accent);text-decoration:none;cursor:pointer}
+.version-author-link:hover{text-decoration:underline}
+.version-body{padding:8px 12px 12px;border-top:1px solid var(--border-default);display:none}
+.version-body.open{display:block}
+.version-track{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bg-hover-strong)}
+.version-track:last-child{border-bottom:none}
+.version-track-info{flex:1;min-width:0}
+.version-track-title{font-size:.78rem;font-weight:500;color:var(--text-muted-9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.version-track-meta{font-size:.65rem;color:var(--text-muted-2);display:flex;gap:6px;align-items:center;margin-top:2px}
+.version-track-actions{display:flex;gap:4px;flex-shrink:0}
+
+/* upload section */
+.upload-section{border:1px dashed var(--border-hover);padding:14px;text-align:center;margin-bottom:12px}
+.upload-section:hover{border-color:var(--border-focus);background:var(--bg-hover)}
+.upload-section i{font-size:1.2rem;color:var(--text-muted-2);margin-bottom:4px;display:block}
+.upload-section p{font-size:.72rem;color:var(--text-muted-3);margin-bottom:8px}
+
+/* merge requests */
+.merge-request-item{padding:10px 12px;border:1px solid var(--border-default);border-radius:6px;margin-bottom:8px;background:var(--bg-surface)}
+.merge-request-info{display:flex;gap:10px;align-items:center;font-size:.82rem;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+.merge-request-message{font-size:.76rem;color:var(--text-muted-3);margin-bottom:8px}
+.merge-request-actions{display:flex;gap:6px}
+.merge-request-tracks{display:none;margin-top:4px;margin-bottom:6px;padding:6px 8px;background:var(--bg-card);border-radius:4px}
+.mr-track-row{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:.78rem}
+.mr-play-btn{font-size:.68rem;padding:2px 5px;color:var(--text-primary)}
+.mr-track-title{font-size:.78rem;color:var(--text-primary)}
+
+/* admin list */
+.list-header{display:grid;padding:7px 12px;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted-2);font-weight:600;border-bottom:1px solid var(--border-default)}
+.list-row{display:grid;padding:8px 12px;align-items:center;border-bottom:1px solid var(--bg-hover-strong);transition:background .15s;font-size:.8rem}
+.list-row:hover{background:var(--bg-hover)}
+.list-row-actions{display:flex;gap:4px;justify-content:flex-end}
+.user-row{grid-template-columns:40px 1fr 1fr 60px 80px}
+
+/* player bar */
+#playerBar{position:fixed;bottom:0;left:0;right:0;height:64px;background:var(--player-bg);border-top:1px solid var(--player-border);z-index:9995;display:none;align-items:center;padding:0 20px;gap:12px}
+#playerBar.show{display:flex}
+.player-info{display:flex;flex-direction:column;min-width:120px;max-width:200px}
+.player-title{font-size:.8rem;font-weight:600;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-project{font-size:.65rem;color:var(--text-muted-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-btn{background:none;border:none;color:var(--text-muted-4);font-size:1.2rem;cursor:pointer;padding:6px;transition:color .15s;display:flex;align-items:center}
+.player-btn:hover{color:var(--text-primary)}
+.player-progress{flex:1;display:flex;align-items:center;gap:8px}
+.player-progress input[type="range"]{flex:1;height:3px;-webkit-appearance:none;appearance:none;background:var(--border-hover);outline:none;cursor:pointer}
+.player-progress input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:var(--player-thumb);border:none;cursor:pointer}
+.player-time{font-size:.68rem;color:var(--text-muted-3);font-family:'JetBrains Mono',monospace;min-width:80px;text-align:center}
+.player-volume{display:flex;align-items:center;gap:4px;width:100px}
+.player-volume input[type="range"]{width:70px;height:3px;-webkit-appearance:none;appearance:none;background:var(--border-hover);outline:none;cursor:pointer}
+.player-volume input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:8px;height:8px;background:var(--volume-thumb);border:none;cursor:pointer}
+
+/* cover upload */
+.cover-upload-wrap{display:flex;gap:12px;align-items:center;justify-content:center}
+.cover-upload{width:160px;height:160px;border:1px dashed var(--border-strong);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s,background .2s;border-radius:4px}
+.cover-upload:hover{border-color:var(--border-focus-strong);background:var(--bg-hover-strong)}
+.cover-preview{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-muted-3);font-size:.72rem;text-align:center;padding:12px}
+.cover-preview i{font-size:2rem;color:var(--text-muted-7)}
+.cover-preview-img{width:100%;height:100%;object-fit:cover}
+.cover-preview-img.hidden{display:none}
+
+/* project card */
+.project-card{position:relative;background:var(--bg-card);border:1px solid var(--border-card);cursor:pointer;transition:border-color .2s,transform .15s;display:flex;flex-direction:column;overflow:hidden}
+.project-card:hover{border-color:var(--border-hover);transform:translateY(-1px)}
+.project-card-cover{position:relative;width:100%;aspect-ratio:1;background:var(--bg-surface);overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.project-card-cover img{width:100%;height:100%;object-fit:cover}
+.project-card-cover .placeholder{color:var(--placeholder);font-size:3rem}
+.project-card-play-overlay{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:flex-start;opacity:0;transition:opacity .2s;background:rgba(0,0,0,.3);cursor:pointer;padding:10px}
+.project-card:hover .project-card-play-overlay{opacity:1}
+.project-card-play-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);border-radius:0;color:#fff;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;transition:background .15s,border-color .15s}
+.project-card-play-btn:hover{background:rgba(0,0,0,.8);border-color:rgba(255,255,255,.5)}
+.project-card-play-btn i{font-size:.85rem}
+.project-card-gradient{position:absolute;bottom:0;left:0;right:0;height:65%;background:linear-gradient(transparent,var(--card-gradient));pointer-events:none}
+.project-card-body{position:absolute;bottom:0;left:0;right:0;padding:14px;z-index:1}
+.project-card-body .project-title{font-size:.92rem;font-weight:700;color:#fff;letter-spacing:-.01em;line-height:1.2;word-break:break-word;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.project-card-body .project-meta{font-size:.68rem;color:var(--text-on-card-meta);margin-top:3px;text-shadow:0 1px 3px var(--shadow-sm);display:flex;gap:6px;flex-wrap:wrap}
+.project-card-body .project-meta span{display:inline}
+.project-card-body .project-meta i{color:var(--icon-muted);width:11px}
+.project-card-body .project-desc{font-size:.72rem;color:var(--text-on-card);margin-top:4px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 1px 2px var(--shadow-sm-2)}
+.project-badge{font-size:.55rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border:1px solid;font-weight:600;white-space:nowrap;flex-shrink:0}
+.project-badge.draft{border-color:var(--badge-draft);color:var(--badge-draft)}
+.project-badge.published{border-color:var(--badge-published);color:var(--badge-published)}
+.project-fork{font-size:.62rem;color:var(--icon-stronger);margin-top:4px;text-shadow:0 1px 2px var(--shadow-sm-2)}
+.project-fork i{color:var(--icon-muted)}
+.project-original{font-size:.62rem;color:var(--text-on-card);margin-top:4px;text-shadow:0 1px 2px var(--shadow-sm-2);opacity:.7}
+.project-original i{color:var(--text-on-card)}
+
+.project-card-actions{position:absolute;top:8px;right:8px;z-index:2;display:flex;gap:4px;opacity:0;transition:opacity .15s}
+.project-card:hover .project-card-actions{opacity:1}
+.project-card-actions .btn{font-size:.62rem;padding:4px 7px;background:var(--card-actions-bg);color:var(--card-actions-text);backdrop-filter:blur(4px)}
+.project-card-actions .btn:hover{background:var(--card-actions-hover-bg);color:var(--text-primary)}
+
+/* detail cover */
+.detail-cover{width:140px;height:140px;background:var(--bg-surface);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-default)}
+.detail-cover img{width:100%;height:100%;object-fit:cover}
+.detail-cover .placeholder{color:var(--placeholder);font-size:2.6rem}
+
+/* profile */
+.profile-header{display:flex;gap:14px;align-items:center}
+.profile-avatar{width:80px;height:80px;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:var(--text-muted-4);overflow:hidden;flex-shrink:0}
+
+/* version hover play */
+.version-track-actions-hover{display:none}
+.version-track:hover .version-track-actions{display:none}
+.version-track:hover .version-track-actions-hover{display:flex;gap:4px}
+.version-track-hover-play{padding:4px 8px;background:var(--bg-elevated);cursor:pointer;display:flex;align-items:center;gap:4px;font-size:.72rem;color:var(--text-muted-4);transition:background .15s}
+.version-track-hover-play:hover{background:var(--border-hover);color:var(--text-primary)}
+.version-track-hover-play i{font-size:.9rem}
+
+/* create first version CTA */
+.first-version-cta{text-align:center;padding:32px 16px;border:1px dashed var(--border-strong);margin-bottom:12px}
+.first-version-cta i{font-size:2rem;color:var(--text-muted-7);display:block;margin-bottom:8px}
+.first-version-cta p{color:var(--text-muted-3);font-size:.82rem;margin-bottom:12px}
+.first-version-cta .btn{padding:10px 24px}
+
+/* combined version+track form */
+.combined-form{background:var(--bg-hover);border:1px solid var(--border-card);padding:14px;margin-bottom:12px}
+.combined-form-title{font-size:.78rem;font-weight:600;color:var(--text-muted-4);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.combined-form-title i{color:var(--text-muted-2)}
+
+.footer{text-align:center;padding:28px 20px 20px;font-size:.7rem;color:var(--footer-text);border-top:1px solid var(--footer-border);margin-top:24px}
+.d-none{display:none!important}
+.flex{display:flex}
+.flex-wrap{flex-wrap:wrap}
+.gap-2{gap:8px}
+.gap-3{gap:16px}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.w-full{width:100%}
+.text-center{text-align:center}
+.text-muted{color:var(--text-muted)!important}
+.text-mono{font-family:'JetBrains Mono',monospace}
+.mt-2{margin-top:8px}
+.mb-2{margin-bottom:8px}
+
+/* theme toggle */
+.theme-toggle{background:none;border:none;color:var(--text-muted-4);font-size:1rem;cursor:pointer;padding:6px;display:flex;align-items:center;transition:color .2s}
+.theme-toggle:hover{color:var(--text-primary)}
+
+@media(max-width:768px){
+  .project-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  #playerBar{padding:0 12px;height:56px;gap:8px}
+  .player-volume{width:60px}
+  .player-info{min-width:80px;max-width:120px}
+  .modal{padding:0;max-height:100vh}
+  .modal-overlay{padding:0}
+}
+</style>
+</head>
+<body>
+
+<div id="notification"></div>
+
+<!-- auth -->
+<div id="authSection">
+  <div class="auth-inner">
+    <div class="auth-title">SoundFork</div>
+    <div class="auth-sub">Collaborative music platform</div>
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth="login">Login</button>
+        <button class="auth-tab" data-auth="register">Register</button>
+      </div>
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" id="loginUsername" required placeholder="your_username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+      <form class="auth-form d-none" id="registerForm">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" id="regUsername" required placeholder="your_username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="regEmail" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password (6+)</label>
+          <input type="password" class="form-input" id="regPassword" required minlength="6" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- header -->
+<header id="mainHeader" style="display:none;">
+  <div class="header-inner">
+    <a class="header-brand" href="#" onclick="loadProjects();return false">SoundFork <small>// platform</small></a>
+    <div class="header-right">
+      <div class="header-user">
+        <div class="header-avatar" id="navAvatar"></div>
+        <span id="navUsername" style="color:var(--text-muted-4);cursor:pointer" onclick="const u=getCurrentUser();if(u)openUserProfile(u.id);" title="Open profile"></span>
+        <span class="header-role" id="navUserRole"></span>
+      </div>
+      <div class="header-notif" id="notifArea" style="position:relative;display:none;">
+        <button class="btn btn-ghost btn-sm" onclick="toggleNotifPanel()" title="Notifications" id="notifBellBtn">
+          <i class="bi bi-bell"></i>
+          <span id="notifBadge" style="position:absolute;top:-4px;right:-6px;background:var(--btn-danger-bg);color:#fff;font-size:.58rem;padding:1px 5px;border-radius:8px;font-weight:700;line-height:1.3;display:none"></span>
+        </button>
+        <div class="notif-panel" id="notifPanel" style="display:none;">
+          <div class="notif-panel-header">
+            <span style="font-weight:600;font-size:.82rem">Notifications</span>
+            <button class="btn btn-ghost btn-sm" onclick="clearAllNotifications()" style="font-size:.7rem">Clear all</button>
+          </div>
+          <div class="notif-panel-list" id="notifList"></div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"><i class="bi bi-moon-fill"></i></button>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<!-- main -->
+<div id="mainContent" style="display:none;">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-left">
+        <h1>Projects</h1>
+        <p>Make music together</p>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num" id="statProjects">0</div><div class="hero-stat-label">projects</div></div>
+        <div><div class="hero-stat-num" id="statVersions">0</div><div class="hero-stat-label">versions</div></div>
+        <button class="btn btn-primary btn-sm" onclick="openCreateProjectModal()"><i class="bi bi-plus-lg"></i> Create</button>
+      </div>
+    </div>
+
+    <div class="app-tabs">
+      <button class="app-tab active" data-panel="projects">All projects</button>
+      <button class="app-tab" id="adminTab" style="display:none;" data-panel="admin">Admin</button>
+      <button class="app-tab" id="profileTab" style="display:none;" data-panel="profile">Profile</button>
+    </div>
+
+    <div class="app-tab-panel active" id="projectsPanel">
+      <div class="project-grid" id="projectsContainer">
+        <div class="empty"><i class="bi bi-folder"></i><p>Loading projects...</p></div>
+      </div>
+      <div style="text-align:center;padding:20px;display:none" id="pageNavWrap">
+        <button class="btn btn-secondary btn-sm" id="prevPageBtn" onclick="goPrevPage()" style="margin-right:8px"><i class="bi bi-chevron-left"></i> Previous</button>
+        <span id="pageInfo" style="color:var(--text-secondary);margin:0 12px">Page 1</span>
+        <button class="btn btn-secondary btn-sm" id="nextPageBtn" onclick="goNextPage()" style="margin-left:8px">Next <i class="bi bi-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <div class="app-tab-panel" id="adminPanel">
+      <div class="flex gap-3 flex-wrap">
+        <div class="card" style="flex:1;min-width:260px;">
+          <div class="card-header">Create User</div>
+          <div class="card-body">
+            <form id="userForm">
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" id="userUsername" required placeholder="Username">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="userEmail" required placeholder="email@example.com">
+              </div>
+              <div class="form-group" style="margin-bottom:10px;">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="userPassword" required minlength="6">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Create</button>
+            </form>
+          </div>
+        </div>
+        <div class="card" style="flex:2;min-width:280px;padding:0;">
+          <div class="card-header">
+            <span>All Users</span>
+            <button class="btn btn-ghost btn-sm" onclick="loadUsers()"><i class="bi bi-arrow-clockwise"></i></button>
+          </div>
+          <div id="usersContainer">
+            <div class="empty"><i class="bi bi-people"></i><p>Loading...</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- profile panel -->
+    <div class="app-tab-panel" id="profilePanel">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar"></div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <h2 id="profileUsername" style="font-size:1.1rem;margin-bottom:2px;"></h2>
+            <span class="project-badge" id="profileRole"></span>
+            <button class="btn btn-ghost btn-sm" id="profileEditBtn" style="display:none;" onclick="openEditProfile()"><i class="bi bi-pencil"></i></button>
+          </div>
+<div style="font-size:.78rem;color:var(--text-muted);">
+<span id="profileEmail" style="color:var(--text-muted-3);"></span>
+          </div>
+          <div id="profileBio" style="font-size:.82rem;color:var(--text-muted);margin-top:6px;line-height:1.4;"></div>
+          <div id="profileSocial" style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;border-top:1px solid rgba(255,255,255,.04);padding-top:14px;">
+        <h3 style="font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted-2);margin-bottom:10px;">Projects</h3>
+        <div class="project-grid" id="profileProjectsContainer"></div>
+        <div style="text-align:center;padding:16px;display:none" id="profilePageNavWrap">
+          <button class="btn btn-secondary btn-sm" id="profilePrevPageBtn" onclick="profileGoPrevPage()" style="margin-right:8px"><i class="bi bi-chevron-left"></i> Previous</button>
+          <span id="profilePageInfo" style="color:var(--text-secondary);margin:0 12px">Page 1</span>
+          <button class="btn btn-secondary btn-sm" id="profileNextPageBtn" onclick="profileGoNextPage()" style="margin-left:8px">Next <i class="bi bi-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">SoundFork — collaborative music platform</div>
+  </div>
+</div>
+
+<!-- create project modal -->
+<div class="modal-overlay" id="createProjectModal">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header"><span>New Project</span><button class="modal-close" data-dismiss="modal">&times;</button></div>
+    <div class="modal-body">
+      <form id="projectForm">
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="projectTitle" required placeholder="Project title">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Genre</label>
+          <div class="select-wrap"><select class="form-input" id="projectGenre">
+            <option value="">—</option>
+            <option>Electronic</option><option>House</option><option>Techno</option><option>Trance</option>
+            <option>Dubstep</option><option>Drum &amp; Bass</option><option>Trap</option><option>EDM</option>
+            <option>Ambient</option><option>Lo-fi</option><option>Synthwave</option>
+            <option disabled>──────</option>
+            <option>Hip-Hop / Rap</option><option>R&amp;B</option><option>Soul</option><option>Funk</option>
+            <option>Pop</option><option>Rock</option><option>Alternative</option><option>Indie</option>
+            <option>Metal</option><option>Punk</option>
+            <option disabled>──────</option>
+            <option>Jazz</option><option>Blues</option><option>Classical</option><option>Cinematic</option>
+            <option>Folk</option><option>Country</option><option>Reggae</option><option>Latin</option>
+            <option>World</option><option>K-Pop</option>
+            <option disabled>──────</option>
+            <option>Experimental</option><option>Noise</option><option>Drone</option>
+          </select></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cover</label>
+          <div class="cover-upload-wrap">
+            <div class="cover-upload" onclick="document.getElementById('projectCover').click()">
+              <input type="file" id="projectCover" accept="image/*" onchange="previewCover(this)">
+              <div id="coverPreviewPlaceholder" class="cover-preview">
+                <i class="bi bi-image"></i>
+                <span>Upload cover</span>
+              </div>
+              <img id="coverPreviewImg" class="cover-preview-img hidden">
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="projectDescription" rows="2" placeholder="What is this project about?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create Project</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- edit project modal -->
+<div class="modal-overlay" id="editProjectModal">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header"><span>Edit Project</span><button class="modal-close" data-dismiss="modal">&times;</button></div>
+    <div class="modal-body">
+      <form id="editProjectForm">
+        <input type="hidden" id="editProjectId">
+        <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-input" id="editProjectTitle"></div>
+        <div class="flex gap-2">
+          <div style="flex:1;"><label class="form-label">Genre</label>
+            <div class="select-wrap"><select class="form-input" id="editProjectGenre">
+              <option value="">—</option>
+              <option>Electronic</option><option>House</option><option>Techno</option><option>Trance</option>
+              <option>Dubstep</option><option>Drum &amp; Bass</option><option>Trap</option><option>EDM</option>
+              <option>Ambient</option><option>Lo-fi</option><option>Synthwave</option>
+              <option disabled>──────</option>
+              <option>Hip-Hop / Rap</option><option>R&amp;B</option><option>Soul</option><option>Funk</option>
+              <option>Pop</option><option>Rock</option><option>Alternative</option><option>Indie</option>
+              <option>Metal</option><option>Punk</option>
+              <option disabled>──────</option>
+              <option>Jazz</option><option>Blues</option><option>Classical</option><option>Cinematic</option>
+              <option>Folk</option><option>Country</option><option>Reggae</option><option>Latin</option>
+              <option>World</option><option>K-Pop</option>
+              <option disabled>──────</option>
+              <option>Experimental</option><option>Noise</option><option>Drone</option>
+            </select></div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="editProjectDescription" rows="2"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-dismiss="modal">Cancel</button>
+      <button class="btn btn-primary" onclick="updateProject()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- edit user modal -->
+<div class="modal-overlay" id="editUserModal">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header"><span>Edit User</span><button class="modal-close" data-dismiss="modal">&times;</button></div>
+    <div class="modal-body">
+      <form id="editUserForm">
+        <input type="hidden" id="editUserId">
+        <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="editUserUsername"></div>
+        <div class="form-group" style="margin-bottom:0;"><label class="form-label">New Password</label><input type="password" class="form-input" id="editUserPassword" placeholder="Leave empty"></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-dismiss="modal">Cancel</button>
+      <button class="btn btn-primary" onclick="updateUser()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EDIT PROFILE MODAL ===== -->
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><span>Edit Profile</span><button class="modal-close" data-dismiss="modal">&times;</button></div>
+    <div class="modal-body">
+      <form id="editProfileForm">
+        <div class="form-group">
+          <label class="form-label">Avatar</label>
+          <div class="cover-upload-wrap">
+            <div class="cover-upload" onclick="document.getElementById('editProfileAvatar').click()" style="width:100px;height:100px;">
+              <input type="file" id="editProfileAvatar" accept="image/*" onchange="previewEditAvatar(this)" style="display:none;">
+              <div class="cover-preview" id="editAvatarPreview" style="padding:8px;">
+                <i class="bi bi-person" style="font-size:1.8rem;"></i>
+                <span style="font-size:.62rem;">Upload</span>
+              </div>
+              <img id="editAvatarPreviewImg" class="cover-preview-img hidden">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">About</label>
+          <textarea class="form-input" id="editProfileBio" rows="3" placeholder="Tell us about yourself"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Social Links</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <div style="flex:1;min-width:160px;">
+              <input type="text" class="form-input" id="editSocialInstagram" placeholder="Instagram (username)" style="font-size:.78rem;">
+            </div>
+            <div style="flex:1;min-width:160px;">
+              <input type="text" class="form-input" id="editSocialYoutube" placeholder="YouTube (channel URL)" style="font-size:.78rem;">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-dismiss="modal">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MERGE REQUEST MODAL ===== -->
+<div class="modal-overlay" id="mergeRequestModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span>Submit changes to original project</span>
+      <button class="modal-close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Message *</label>
+        <textarea class="form-input" id="mergeRequestMessage" rows="3" placeholder="Describe your changes..." style="resize:vertical;"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Version to submit</label>
+        <div class="select-wrap"><select class="form-input" id="mergeRequestVersion"></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-dismiss="modal">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmMergeRequest()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROJECT DETAIL MODAL ===== -->
+<div class="modal-overlay" id="projectDetailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span id="detailModalTitle">Project</span>
+      <button class="modal-close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- header info -->
+      <div class="proj-detail-header">
+        <div class="flex gap-2" style="margin-bottom:8px;">
+          <div class="detail-cover" id="detailCover">
+            <div class="placeholder"><i class="bi bi-music-note-beamed"></i></div>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="proj-detail-title">
+              <span id="detailTitle"></span>
+            </div>
+            <div class="proj-detail-meta">
+              <span><i class="bi bi-person"></i> <span id="detailAuthor"></span></span>
+              <span><i class="bi bi-tag"></i> <span id="detailGenre"></span></span>
+              <span><i class="bi bi-git-fork"></i> <span id="detailFork"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="proj-detail-desc" id="detailDesc"></div>
+      </div>
+
+      <!-- stats -->
+      <div class="proj-detail-stats">
+        <span><strong id="detailVersionCount">0</strong> versions</span>
+        <span><strong id="detailTrackCount">0</strong> tracks</span>
+      </div>
+
+      <!-- actions -->
+      <div class="proj-detail-actions">
+        <button class="btn btn-ghost btn-sm" id="detailForkBtn" onclick="forkCurrentProject()"><i class="bi bi-git-fork"></i> Fork</button>
+        <button class="btn btn-ghost btn-sm" id="detailEditBtn" style="display:none;" onclick="editDetailProject()"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-ghost btn-sm" id="detailDeleteBtn" style="display:none;color:var(--btn-danger-bg);" onclick="deleteDetailProject()"><i class="bi bi-trash"></i></button>
+      </div>
+
+      <!-- create version toggle button -->
+      <div style="margin-bottom:12px;">
+        <button class="btn btn-primary btn-sm" id="showVersionFormBtn" onclick="toggleVersionForm()"><i class="bi bi-git-commit"></i> <span id="versionFormBtnText">New Version</span></button>
+        <button class="btn btn-sm" id="detailMergeBtn" style="display:none;border:1px solid var(--accent);color:var(--accent);" onclick="submitMergeRequest()"><i class="bi bi-git-pull-request"></i> Submit changes to original</button>
+      </div>
+
+      <!-- create version with track (combined form, hidden by default) -->
+      <div class="combined-form" id="combinedForm" style="display:none;">
+        <div class="combined-form-title"><i class="bi bi-git-commit"></i> New Version</div>
+        <form id="combinedVersionForm">
+          <div class="form-group">
+            <label class="form-label">Audio File *</label>
+            <input type="file" class="form-input" id="combinedFile" required accept=".mp3,.wav,.flac,.ogg,.aac,.wma,.m4a">
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <div style="flex:2;min-width:140px;">
+              <label class="form-label">Track Title</label>
+              <input type="text" class="form-input" id="combinedTrackTitle" placeholder="Track title">
+            </div>
+            <div style="flex:1;min-width:70px;">
+              <label class="form-label">BPM</label>
+              <input type="number" class="form-input" id="combinedBpm" placeholder="BPM (1-500)" min="1" max="500">
+            </div>
+            <div style="flex:1;min-width:80px;">
+              <label class="form-label">Key</label>
+              <select class="form-input" id="combinedKey">
+                <option value="">—</option>
+                <option value="C">C</option><option value="C#">C#</option><option value="Db">Db</option>
+                <option value="D">D</option><option value="D#">D#</option><option value="Eb">Eb</option>
+                <option value="E">E</option><option value="F">F</option><option value="F#">F#</option>
+                <option value="Gb">Gb</option><option value="G">G</option><option value="G#">G#</option>
+                <option value="Ab">Ab</option><option value="A">A</option><option value="A#">A#</option>
+                <option value="Bb">Bb</option><option value="B">B</option>
+                <option disabled>──────────</option>
+                <option value="Cm">Cm</option><option value="C#m">C#m</option><option value="Dm">Dm</option>
+                <option value="D#m">D#m</option><option value="Ebm">Ebm</option><option value="Em">Em</option>
+                <option value="Fm">Fm</option><option value="F#m">F#m</option><option value="Gm">Gm</option>
+                <option value="G#m">G#m</option><option value="Abm">Abm</option><option value="Am">Am</option>
+                <option value="A#m">A#m</option><option value="Bbm">Bbm</option><option value="Bm">Bm</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:8px;margin-bottom:0;">
+            <label class="form-label">Commit Message *</label>
+            <input type="text" class="form-input" id="combinedCommitMsg" required placeholder="What changed in this version?">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;"><i class="bi bi-git-commit"></i> Create Version</button>
+        </form>
+      </div>
+
+      <!-- version timeline -->
+      <div id="detailVersions">
+        <div class="empty"><i class="bi bi-git-commit"></i><p>Loading versions...</p></div>
+      </div>
+
+      <!-- merge requests section (for project author) -->
+      <div id="detailMergeRequests" style="display:none;margin-top:16px;">
+        <div style="font-size:.85rem;font-weight:600;color:var(--text-primary);margin-bottom:8px;"><i class="bi bi-git-pull-request"></i> Merge Requests</div>
+        <div id="mergeRequestsList"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- player bar -->
+<div id="playerBar">
+  <button class="player-btn" id="playerPlayBtn" onclick="togglePlay()"><i class="bi bi-play-fill"></i></button>
+  <div class="player-info">
+    <span class="player-title" id="playerTrackTitle">—</span>
+    <span class="player-project" id="playerProjectName">—</span>
+  </div>
+  <div class="player-progress">
+    <span class="player-time" id="playerCurrentTime">0:00</span>
+    <input type="range" id="playerSeek" value="0" max="100" oninput="seekAudio()">
+    <span class="player-time" id="playerDuration">0:00</span>
+  </div>
+  <div class="player-volume">
+    <i class="bi bi-volume-up" style="color:var(--text-muted-3);font-size:.8rem;"></i>
+    <input type="range" id="playerVolume" value="80" max="100" oninput="setVolume()">
+  </div>
+  <button class="player-btn" onclick="closePlayer()"><i class="bi bi-x" style="font-size:1rem;"></i></button>
+</div>
+<audio id="audioPlayer" style="display:none;"></audio>
+
+<script>
+const TOKEN_KEY = 'sf_token', USER_KEY = 'sf_user';
+function getToken() { return localStorage.getItem(TOKEN_KEY); }
+function getCurrentUser() { const d = localStorage.getItem(USER_KEY); return d ? JSON.parse(d) : null; }
+function saveAuth(token, user) { localStorage.setItem(TOKEN_KEY, token); localStorage.setItem(USER_KEY, JSON.stringify(user)); }
+function clearAuth() { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); }
+function isAdmin() { const u = getCurrentUser(); return u && u.role === 'ADMIN'; }
+function getUserId() { const u = getCurrentUser(); return u ? u.id : null; }
+
+async function authFetch(url, options = {}) {
+  const headers = options.headers || {};
+  const token = getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  if (options.body && !(options.body instanceof FormData)) headers['Content-Type'] = 'application/json';
+  const res = await fetch(url, { ...options, headers });
+  if (res.status === 401) { clearAuth(); showAuth(); notify('Session expired', 'error'); throw new Error('Unauthorized'); }
+  return res;
+}
+
+function notify(msg, type) {
+  type = type || 'info';
+  const el = document.getElementById('notification');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => { el.className = ''; }, 4000);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) { el.classList.remove('open'); document.body.style.overflow = ''; } });
+});
+document.querySelectorAll('[data-dismiss="modal"]').forEach(el => {
+  el.addEventListener('click', () => { const m = el.closest('.modal-overlay'); if (m) { m.classList.remove('open'); document.body.style.overflow = ''; } });
+});
+
+function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function fmtSize(b) { if (!b) return '0 B'; const k = 1024, s = ['B','KB','MB','GB']; const i = Math.floor(Math.log(b)/Math.log(k)); return parseFloat((b/Math.pow(k,i)).toFixed(1)) + ' ' + s[i]; }
+
+// auth UI
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.add('d-none'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.auth + 'Form').classList.remove('d-none');
+  });
+});
+function showAuth() {
+  document.getElementById('authSection').style.display = 'flex';
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('mainHeader').style.display = 'none';
+}
+function showApp() {
+  document.getElementById('authSection').style.display = 'none';
+  document.getElementById('mainContent').style.display = '';
+  document.getElementById('mainHeader').style.display = '';
+  const u = getCurrentUser();
+  if (u) {
+    document.getElementById('navUsername').textContent = u.username;
+    document.getElementById('navUserRole').textContent = u.role;
+    document.getElementById('navAvatar').textContent = u.username.charAt(0).toUpperCase();
+    authFetch('/users/' + u.id).then(r => r.json()).then(user => {
+      if (user.avatarUrl) {
+        document.getElementById('navAvatar').innerHTML = '<img src="' + user.avatarUrl + '" alt="" style="width:100%;height:100%;object-fit:cover">';
+      }
+    }).catch(() => {});
+  }
+  document.getElementById('adminTab').style.display = isAdmin() ? '' : 'none';
+  startMergeRequestPolling();
+}
+
+let _notifPollInterval = null;
+async function pollNotifications() {
+  try {
+    const [countRes, listRes] = await Promise.all([
+      authFetch('/notifications/unread/count'),
+      authFetch('/notifications?page=0&size=50')
+    ]);
+    const count = await countRes.json();
+    const notifs = await listRes.json();
+    const badge = document.getElementById('notifBadge');
+    const area = document.getElementById('notifArea');
+    if (count > 0) {
+      badge.textContent = count > 9 ? '9+' : count;
+      badge.style.display = '';
+      area.style.display = '';
+    } else {
+      badge.style.display = 'none';
+      area.style.display = 'none';
+    }
+    renderNotifList(notifs);
+  } catch (_) {}
+}
+function renderNotifList(data) {
+  const list = document.getElementById('notifList');
+  const notifs = Array.isArray(data) ? data : (data.content || []);
+  if (!notifs || notifs.length === 0) {
+    list.innerHTML = '<div class="notif-empty">No notifications</div>';
+    return;
+  }
+  list.innerHTML = notifs.map(n => {
+    const icon = n.type === 'merge_request_approved' ? 'bi-check-circle-fill' :
+                 n.type === 'merge_request_rejected' ? 'bi-x-circle-fill' :
+                 n.type === 'merge_request_pending' ? 'bi-git-pull-request' : 'bi-bell';
+    const iconColor = n.type === 'merge_request_approved' ? 'color:#16a34a' :
+                      n.type === 'merge_request_rejected' ? 'color:#b91c1c' :
+                      n.type === 'merge_request_pending' ? 'color:#f59e0b' : '';
+    const projectLink = n.relatedProjectTitle ? ' <span style="font-weight:500">' + esc(n.relatedProjectTitle) + '</span>' : '';
+    const time = n.createdAt ? new Date(n.createdAt).toLocaleString() : '';
+    return '<div class="notif-item' + (n.read ? '' : '') + '">' +
+      '<i class="bi ' + icon + '" style="' + iconColor + ';font-size:.78rem;margin-top:2px"></i>' +
+      '<div class="notif-text">' + n.message + projectLink +
+      '<div class="notif-time">' + time + '</div></div>' +
+      '<button class="notif-dismiss" onclick="dismissNotification(' + n.id + ',event)" title="Dismiss"><i class="bi bi-x"></i></button>' +
+      '</div>';
+  }).join('');
+}
+async function dismissNotification(id, event) {
+  if (event) event.stopPropagation();
+  try {
+    await authFetch('/notifications/' + id, { method: 'DELETE' });
+    pollNotifications();
+  } catch (_) {}
+}
+async function clearAllNotifications() {
+  try {
+    await authFetch('/notifications', { method: 'DELETE' });
+    pollNotifications();
+  } catch (_) {}
+}
+function toggleNotifPanel() {
+  const panel = document.getElementById('notifPanel');
+  panel.style.display = panel.style.display === 'none' ? '' : 'none';
+  if (panel.style.display !== 'none') pollNotifications();
+}
+document.addEventListener('click', function(e) {
+  const area = document.getElementById('notifArea');
+  const panel = document.getElementById('notifPanel');
+  if (area && panel && !area.contains(e.target)) {
+    panel.style.display = 'none';
+  }
+});
+function startMergeRequestPolling() {
+  if (_notifPollInterval) clearInterval(_notifPollInterval);
+  pollNotifications();
+  _notifPollInterval = setInterval(pollNotifications, 30000);
+}
+
+document.querySelectorAll('.app-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.app-tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel + 'Panel').classList.add('active');
+    if (tab.dataset.panel === 'admin') loadUsers();
+    if (tab.dataset.panel === 'profile') {
+      const u = getCurrentUser();
+      if (u) openUserProfile(u.id);
+    }
+  });
+});
+
+// login / register
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button'); btn.disabled = true;
+  try {
+    const res = await fetch('/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: document.getElementById('loginUsername').value, password: document.getElementById('loginPassword').value }) });
+    const data = await res.json();
+    if (!res.ok || !data.token) { notify(data.message || data.error || 'Invalid username or password', 'error'); btn.disabled = false; return; }
+    saveAuth(data.token, data.user); showApp(); loadProjects();
+  } catch (err) { notify(err.message, 'error'); btn.disabled = false; }
+});
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button'); btn.disabled = true;
+  try {
+    const res = await fetch('/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: document.getElementById('regUsername').value, email: document.getElementById('regEmail').value, password: document.getElementById('regPassword').value }) });
+    const data = await res.json();
+    if (!res.ok || !data.token) { notify(data.message || data.error || 'Registration error', 'error'); btn.disabled = false; return; }
+    saveAuth(data.token, data.user); showApp(); loadProjects();
+  } catch (err) { notify(err.message, 'error'); btn.disabled = false; }
+});
+function logout() { clearAuth(); closePlayer(); showAuth(); document.getElementById('loginForm').reset(); document.getElementById('registerForm').reset(); }
+
+// Enter key submits the active auth form
+document.querySelectorAll('.auth-form input').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const form = inp.closest('.auth-form');
+      if (form && form.style.display !== 'none') form.querySelector('button[type="submit"]').click();
+    }
+  });
+});
+
+// users (admin)
+async function loadUsers() {
+  const container = document.getElementById('usersContainer');
+  container.innerHTML = '<div class="empty"><i class="bi bi-people"></i><p>Loading...</p></div>';
+  try {
+    const res = await authFetch('/users');
+    const users = await res.json();
+    if (!users.length) { container.innerHTML = '<div class="empty"><i class="bi bi-people"></i><p>No users</p></div>'; return; }
+    let html = '<div class="list-header user-row"><span>ID</span><span>Username</span><span>Email</span><span>Role</span><span></span></div>';
+    html += users.map(u => '<div class="list-row user-row"><span class="mono">' + u.id + '</span><span><strong>' + esc(u.username) + '</strong></span><span style="color:var(--text-muted);font-size:.76rem;">' + esc(u.email) + '</span><span><span class="project-badge ' + (u.role === 'ADMIN' ? 'published' : 'draft') + '">' + esc(u.role) + '</span></span><span class="list-row-actions"><button class="btn btn-ghost btn-sm" onclick="openEditUser(' + u.id + ',\'' + esc(u.username) + '\')"><i class="bi bi-pencil"></i></button><button class="btn btn-ghost btn-sm" style="color:var(--btn-danger-bg);" onclick="deleteUser(' + u.id + ')"><i class="bi bi-trash"></i></button></span></div>').join('');
+    container.innerHTML = html;
+  } catch (err) { container.innerHTML = '<div class="empty" style="color:var(--btn-danger-bg);"><p>' + err.message + '</p></div>'; }
+}
+document.getElementById('userForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const body = JSON.stringify({ username: document.getElementById('userUsername').value, email: document.getElementById('userEmail').value, password: document.getElementById('userPassword').value });
+  try {
+    const res = await authFetch('/users', { method: 'POST', body });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    notify('User created', 'success');
+    document.getElementById('userForm').reset(); loadUsers();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+});
+function openEditUser(id, username) {
+  document.getElementById('editUserId').value = id;
+  document.getElementById('editUserUsername').value = username;
+  document.getElementById('editUserPassword').value = '';
+  openModal('editUserModal');
+}
+async function updateUser() {
+  const body = { username: document.getElementById('editUserUsername').value };
+  const pw = document.getElementById('editUserPassword').value;
+  if (pw) body.password = pw;
+  try {
+    const res = await authFetch('/users/' + document.getElementById('editUserId').value, { method: 'PUT', body: JSON.stringify(body) });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + JSON.stringify(d), 'error'); return; }
+    closeModal('editUserModal'); notify('User updated', 'success'); loadUsers();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+async function deleteUser(id) {
+  if (!confirm('Delete user?')) return;
+  try { await authFetch('/users/' + id, { method: 'DELETE' }); notify('User deleted', 'success'); loadUsers(); }
+  catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+// ====================================================================
+// PROJECTS
+// ====================================================================
+
+let projectPage = 0;
+let projectLastPage = false;
+const PROJECT_PAGE_SIZE = 12;
+let profilePage = 0;
+let profileLastPage = false;
+
+async function loadProjects() {
+  projectPage = 0;
+  projectLastPage = false;
+  const container = document.getElementById('projectsContainer');
+  container.innerHTML = '<div class="empty"><i class="bi bi-folder"></i><p>Loading projects...</p></div>';
+  try {
+    const resp = await authFetch('/projects?page=' + projectPage + '&size=' + PROJECT_PAGE_SIZE);
+    const data = await resp.json();
+    projectLastPage = data.last;
+    renderProjects(data.content || [], null, true);
+  } catch (err) {
+    container.innerHTML = '<div class="empty" style="color:var(--btn-danger-bg);"><p>' + err.message + '</p></div>';
+  }
+}
+
+async function loadPage(page) {
+  projectPage = page;
+  const container = document.getElementById('projectsContainer');
+  container.innerHTML = '<div class="empty"><i class="bi bi-folder"></i><p>Loading...</p></div>';
+  try {
+    const resp = await authFetch('/projects?page=' + page + '&size=' + PROJECT_PAGE_SIZE);
+    const data = await resp.json();
+    projectLastPage = data.last;
+    renderProjects(data.content || [], null, true);
+  } catch (err) {
+    container.innerHTML = '<div class="empty" style="color:var(--btn-danger-bg);"><p>' + err.message + '</p></div>';
+  }
+}
+function renderProjects(projects, containerId, replace) {
+  const container = document.getElementById(containerId || 'projectsContainer');
+  if (!projects.length) { container.innerHTML = '<div class="empty"><i class="bi bi-folder-plus"></i><p>No projects</p></div>'; if (!containerId) updateStats(0,0); return; }
+  const uid = getUserId();
+  projects.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  if (replace !== false) container.innerHTML = '';
+  container.innerHTML += projects.map(p => {
+    const canEdit = (p.author && p.author.id === uid) || isAdmin();
+    const fork = p.sourceProjectId ? '<div class="project-fork"><i class="bi bi-git-fork"></i> fork from ' + esc(p.sourceProjectTitle || '#' + p.sourceProjectId) + '</div>' : '<div class="project-original"><i class="bi bi-check-circle"></i> original</div>';
+    const coverFile = p.coverArtPath ? p.coverArtPath.split('/').pop() : null;
+    const hasTrack = p.latestTrackId != null;
+    const playBtn = hasTrack
+      ? '<div class="project-card-play-overlay" onclick="event.stopPropagation();cardPlayToggle(' + p.latestTrackId + ',\'' + esc(p.latestTrackTitle || '') + '\',\'' + esc(p.title) + '\',this)"><span class="project-card-play-btn" data-track-id="' + p.latestTrackId + '"><i class="bi bi-play-fill"></i> Play</span></div>'
+      : '';
+    const cover = coverFile
+      ? '<div class="project-card-cover"><img src="/covers/' + p.id + '/' + coverFile + '" alt="" loading="lazy">' + playBtn + '</div>'
+      : '<div class="project-card-cover"><div class="placeholder"><i class="bi bi-music-note-beamed"></i></div>' + playBtn + '</div>';
+    const authorName = p.author ? '<span onclick="event.stopPropagation();openUserProfile(' + p.author.id + ')" style="cursor:pointer;color:var(--text-on-card);transition:color .15s" onmouseover="this.style.color=\'var(--text-primary)\'" onmouseout="this.style.color=\'var(--text-on-card)\'"><i class="bi bi-person"></i> ' + esc(p.author.username) + '</span>' : '';
+    const genre = p.genre ? '<span><i class="bi bi-tag"></i> ' + esc(p.genre) + '</span>' : '';
+    const desc = p.description ? '<div class="project-desc">' + esc(p.description) + '</div>' : '';
+    return '<div class="project-card" onclick="openProjectDetail(' + p.id + ')">' +
+      cover +
+      '<div class="project-card-gradient"></div>' +
+      '<div class="project-card-body">' +
+      '<div class="project-title">' + esc(p.title) + '</div>' +
+      '<div class="project-meta">' + authorName + genre + '</div>' +
+      fork + desc +
+      '</div>' +
+      (canEdit || isAdmin() ? '<div class="project-card-actions">' +
+        (canEdit ? '<button class="btn btn-sm" onclick="event.stopPropagation();openEditProject(' + p.id + ',\'' + esc(p.title) + '\',\'' + esc(p.description||'') + '\',\'' + esc(p.genre||'') + '\')"><i class="bi bi-pencil"></i></button>' : '') +
+        (canEdit ? '<button class="btn btn-sm" style="color:#ef4444;" onclick="event.stopPropagation();deleteProject(' + p.id + ')"><i class="bi bi-trash"></i></button>' : '') +
+        '</div>' : '') +
+      '</div>';
+  }).join('');
+  if (!containerId) {
+    updateStats(projects.length, 0);
+    const wrap = document.getElementById('pageNavWrap');
+    if (wrap) {
+      if (projectLastPage && projectPage === 0) {
+        wrap.style.display = 'none';
+      } else {
+        wrap.style.display = '';
+        document.getElementById('pageInfo').textContent = 'Page ' + (projectPage + 1);
+        document.getElementById('prevPageBtn').disabled = projectPage === 0;
+        document.getElementById('nextPageBtn').style.display = projectLastPage ? 'none' : '';
+      }
+    }
+  }
+}
+
+function goPrevPage() { if (projectPage > 0) loadPage(projectPage - 1); }
+function goNextPage() { if (!projectLastPage) loadPage(projectPage + 1); }
+
+async function loadProfilePage(page) {
+  profilePage = page;
+  const userId = _viewedProfileUserId;
+  if (!userId) return;
+  const container = document.getElementById('profileProjectsContainer');
+  container.innerHTML = '<div class="empty"><i class="bi bi-folder"></i><p>Loading...</p></div>';
+  try {
+    const resp = await authFetch('/projects/author/' + userId + '?page=' + page + '&size=' + PROJECT_PAGE_SIZE);
+    const data = await resp.json();
+    profileLastPage = data.last;
+    renderProjects(data.content || [], 'profileProjectsContainer', true);
+    updateProfileNav();
+  } catch (err) {
+    container.innerHTML = '<div class="empty" style="color:var(--btn-danger-bg);"><p>' + err.message + '</p></div>';
+  }
+}
+function updateProfileNav() {
+  const wrap = document.getElementById('profilePageNavWrap');
+  if (!wrap) return;
+  if (profileLastPage && profilePage === 0) {
+    wrap.style.display = 'none';
+  } else {
+    wrap.style.display = '';
+    document.getElementById('profilePageInfo').textContent = 'Page ' + (profilePage + 1);
+    document.getElementById('profilePrevPageBtn').disabled = profilePage === 0;
+    document.getElementById('profileNextPageBtn').style.display = profileLastPage ? 'none' : '';
+  }
+}
+function profileGoPrevPage() { if (profilePage > 0) loadProfilePage(profilePage - 1); }
+function profileGoNextPage() { if (!profileLastPage) loadProfilePage(profilePage + 1); }
+
+function updateStats(p, v) { document.getElementById('statProjects').textContent = p; document.getElementById('statVersions').textContent = v; }
+
+// cover preview
+function previewCover(input) {
+  const placeholder = document.getElementById('coverPreviewPlaceholder');
+  const img = document.getElementById('coverPreviewImg');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      placeholder.style.display = 'none';
+      img.src = e.target.result;
+      img.classList.remove('hidden');
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+function previewEditAvatar(input) {
+  const placeholder = document.getElementById('editAvatarPreview');
+  const img = document.getElementById('editAvatarPreviewImg');
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const imgCheck = new Image();
+    imgCheck.onload = function() {
+      if (imgCheck.width > 500 || imgCheck.height > 500) {
+        notify('Image is too large. Maximum 500×500 pixels.', 'error');
+        input.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        placeholder.style.display = 'none';
+        img.src = e.target.result;
+        img.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    };
+    imgCheck.src = URL.createObjectURL(file);
+  }
+}
+
+// create project
+function openCreateProjectModal() { document.getElementById('projectForm').reset(); document.getElementById('coverPreviewPlaceholder').style.display = 'flex'; document.getElementById('coverPreviewImg').classList.add('hidden'); openModal('createProjectModal'); }
+document.getElementById('projectForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button'); btn.disabled = true;
+  try {
+    const fd = new FormData();
+    fd.append('title', document.getElementById('projectTitle').value);
+    fd.append('description', document.getElementById('projectDescription').value || '');
+    fd.append('genre', document.getElementById('projectGenre').value || '');
+    const coverInput = document.getElementById('projectCover');
+    if (coverInput.files && coverInput.files[0]) fd.append('cover', coverInput.files[0]);
+    const res = await authFetch('/projects', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) { notify('Error: ' + (data.error || JSON.stringify(data)), 'error'); btn.disabled = false; return; }
+    notify('Project "' + data.title + '" created', 'success');
+    closeModal('createProjectModal'); loadProjects();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+  btn.disabled = false;
+});
+
+// edit / delete project
+function openEditProject(id, title, desc, genre) {
+  document.getElementById('editProjectId').value = id;
+  document.getElementById('editProjectTitle').value = title;
+  document.getElementById('editProjectDescription').value = desc;
+  document.getElementById('editProjectGenre').value = genre;
+  openModal('editProjectModal');
+}
+async function updateProject() {
+  const id = document.getElementById('editProjectId').value;
+  const body = JSON.stringify({ title: document.getElementById('editProjectTitle').value, description: document.getElementById('editProjectDescription').value || null, genre: document.getElementById('editProjectGenre').value || null });
+  try {
+    const res = await authFetch('/projects/' + id, { method: 'PUT', body });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + JSON.stringify(d), 'error'); return; }
+    closeModal('editProjectModal'); notify('Project updated', 'success'); loadProjects();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+async function deleteProject(id) {
+  if (!confirm('Delete project?')) return;
+  try { await authFetch('/projects/' + id, { method: 'DELETE' }); notify('Project deleted', 'success'); loadProjects(); } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+// ====================================================================
+// PROJECT DETAIL MODAL
+// ====================================================================
+let _detailProjectId = null;
+let _detailProjectData = null;
+
+async function openProjectDetail(pid) {
+  _detailProjectId = pid;
+  try {
+    const [projRes, tracksRes, versionsRes] = await Promise.all([
+      authFetch('/projects/' + pid),
+      authFetch('/projects/' + pid + '/tracks'),
+      authFetch('/projects/' + pid + '/versions')
+    ]);
+    _detailProjectData = await projRes.json();
+    const tracks = await tracksRes.json();
+    const versions = await versionsRes.json();
+
+    const p = _detailProjectData;
+    document.getElementById('detailModalTitle').textContent = p.title;
+    document.getElementById('detailTitle').textContent = p.title;
+    document.getElementById('detailAuthor').textContent = p.author ? p.author.username : '—';
+    document.getElementById('detailGenre').textContent = p.genre || '—';
+    document.getElementById('detailFork').textContent = p.sourceProjectTitle ? 'fork from ' + p.sourceProjectTitle : '';
+    document.getElementById('detailDesc').textContent = p.description || '';
+    document.getElementById('detailDesc').style.display = p.description ? '' : 'none';
+
+    // cover image
+    const coverEl = document.getElementById('detailCover');
+    if (p.coverArtPath) {
+      const coverFile = p.coverArtPath.split('/').pop();
+      coverEl.innerHTML = '<img src="/covers/' + p.id + '/' + coverFile + '" alt="">';
+    } else {
+      coverEl.innerHTML = '<div class="placeholder"><i class="bi bi-music-note-beamed"></i></div>';
+    }
+
+    document.getElementById('detailVersionCount').textContent = versions.length;
+    document.getElementById('detailTrackCount').textContent = tracks.length;
+    document.getElementById('statVersions').textContent = versions.length;
+
+    const uid = getUserId();
+    const isAdm = isAdmin();
+    const canEdit = (p.author && p.author.id === uid) || isAdm;
+    document.getElementById('detailEditBtn').style.display = canEdit ? '' : 'none';
+    document.getElementById('detailDeleteBtn').style.display = canEdit ? '' : 'none';
+    document.getElementById('detailEditBtn').onclick = () => {
+      closeModal('projectDetailModal');
+      setTimeout(() => openEditProject(p.id, p.title, p.description||'', p.genre||''), 300);
+    };
+    document.getElementById('detailDeleteBtn').onclick = () => {
+      closeModal('projectDetailModal');
+      setTimeout(() => deleteProject(p.id), 300);
+    };
+
+    // show/hide version form button — only for the project author
+    document.getElementById('versionFormBtnText').textContent = 'New Version';
+    document.getElementById('combinedForm').style.display = 'none';
+    document.getElementById('showVersionFormBtn').style.display = (p.author && p.author.id === uid) ? '' : 'none';
+
+    // show merge button only after fork author creates their own version (after fork) and it has no MR yet
+    const mergeBtn = document.getElementById('detailMergeBtn');
+    const forkTime = p.forkedAt ? new Date(p.forkedAt).getTime() : 0;
+    const hasOwnVersion = versions.some(v =>
+      v.author && v.author.id === uid &&
+      v.createdAt && new Date(v.createdAt).getTime() > forkTime &&
+      !v.hasMergeRequest
+    );
+    if (p.sourceProjectId && p.author && p.author.id === uid && hasOwnVersion) {
+      mergeBtn.style.display = '';
+    } else {
+      mergeBtn.style.display = 'none';
+    }
+
+    // load merge requests only for the project author
+    if (p.author && p.author.id === uid) {
+      loadMergeRequests(p.id, uid);
+    } else {
+      document.getElementById('detailMergeRequests').style.display = 'none';
+    }
+
+    renderDetailVersions(versions, p.title);
+    document.getElementById('combinedVersionForm').reset();
+    openModal('projectDetailModal');
+  } catch (err) { notify('Load error: ' + err.message, 'error'); }
+}
+
+async function loadMergeRequests(projectId, currentUserId) {
+  const section = document.getElementById('detailMergeRequests');
+  const list = document.getElementById('mergeRequestsList');
+  try {
+    const res = await authFetch('/projects/' + projectId + '/merge-requests');
+    const mrs = await res.json();
+    const pending = mrs.filter(mr => mr.status === 'PENDING');
+    if (pending.length === 0) { section.style.display = 'none'; return; }
+    const p = _detailProjectData;
+    const isAuthor = p.author && p.author.id === currentUserId;
+    section.style.display = '';
+    // fetch tracks for each MR
+    const mrWithTracks = await Promise.all(pending.map(async mr => {
+      try {
+        const tRes = await authFetch('/versions/' + mr.sourceVersionId + '/tracks');
+        mr.tracks = await tRes.json();
+      } catch (_) { mr.tracks = []; }
+      return mr;
+    }));
+    list.innerHTML = mrWithTracks.map(mr => {
+      const tracksHtml = mr.tracks && mr.tracks.length > 0
+        ? '<div class="merge-request-tracks" style="display:block;margin-top:4px;margin-bottom:6px;padding:6px 8px;background:var(--bg-card);border-radius:4px">' +
+          mr.tracks.map(t =>
+            '<div class="mr-track-row">' +
+            '<button class="btn btn-sm btn-ghost mr-play-btn" onclick="playTrack(' + t.trackId + ')"><i class="bi bi-play-fill"></i></button>' +
+            '<span class="mr-track-title">' + esc(t.trackTitle || 'Track') + '</span>' +
+            '</div>'
+          ).join('') +
+          '</div>'
+        : '';
+      const actions = isAuthor
+        ? '<button class="btn btn-sm" style="background:#16a34a;color:#fff;" onclick="approveMergeRequest(' + mr.id + ')"><i class="bi bi-check-lg"></i> Approve</button>' +
+          '<button class="btn btn-sm" style="background:#b91c1c;color:#fff;" onclick="rejectMergeRequest(' + mr.id + ')"><i class="bi bi-x-lg"></i> Reject</button>'
+        : '<span class="project-badge draft">pending</span>';
+      return '<div class="merge-request-item">' +
+        '<div class="merge-request-info">' +
+        '<span><i class="bi bi-git-commit"></i> v' + mr.sourceVersionNumber + '</span>' +
+        '<span class="text-muted" style="font-size:.76rem;">by ' + esc(mr.authorUsername) + '</span>' +
+        '</div>' +
+        '<div class="merge-request-message">' + esc(mr.message) + '</div>' +
+        tracksHtml +
+        '<div class="merge-request-actions">' + actions + '</div>' +
+        '</div>';
+    }).join('');
+  } catch (err) { section.style.display = 'none'; }
+}
+
+async function submitMergeRequest() {
+  const p = _detailProjectData;
+  if (!p) return;
+  const select = document.getElementById('mergeRequestVersion');
+  select.innerHTML = '<option>Loading...</option>';
+  document.getElementById('mergeRequestMessage').value = '';
+  closeModal('projectDetailModal');
+  openModal('mergeRequestModal');
+  try {
+    const res = await authFetch('/projects/' + p.id + '/versions');
+    const versions = await res.json();
+    select.innerHTML = '';
+    versions.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.id;
+      opt.textContent = 'v' + v.versionNumber + ': ' + (v.commitMessage || '—');
+      select.appendChild(opt);
+    });
+    if (versions.length > 0) select.selectedIndex = 0;
+  } catch (err) {
+    select.innerHTML = '<option>Failed to load</option>';
+  }
+}
+
+async function confirmMergeRequest() {
+  const p = _detailProjectData;
+  const message = document.getElementById('mergeRequestMessage').value.trim();
+  const sourceVersionId = document.getElementById('mergeRequestVersion').value;
+  if (!message) { notify('Please enter a message', 'error'); return; }
+  try {
+    const res = await authFetch('/projects/' + p.sourceProjectId + '/merge-requests', {
+      method: 'POST',
+      body: JSON.stringify({ sourceVersionId: parseInt(sourceVersionId), message: message })
+    });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    closeModal('mergeRequestModal');
+    closeModal('projectDetailModal');
+    notify('Merge request submitted to original author', 'success');
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+async function approveMergeRequest(id) {
+  try {
+    const res = await authFetch('/merge-requests/' + id + '/approve', { method: 'POST' });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    notify('Merge request approved! Changes merged.', 'success');
+    openProjectDetail(_detailProjectId);
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+async function rejectMergeRequest(id) {
+  try {
+    const res = await authFetch('/merge-requests/' + id + '/reject', { method: 'POST' });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    notify('Merge request rejected', 'info');
+    openProjectDetail(_detailProjectId);
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+async function renderDetailVersions(versions, projectTitle) {
+  const container = document.getElementById('detailVersions');
+  if (!versions.length) {
+    container.innerHTML = '';
+    return;
+  }
+  const uid = getUserId();
+  const p = _detailProjectData;
+  container.innerHTML = versions.map((v, i) => {
+    const bodyId = 'dvBody_' + v.id;
+    const isLatest = (i === 0);
+    const canDelete = p && p.author && p.author.id === uid && isLatest && !v.hasApprovedMergeRequest;
+    return '<div class="version-item">' +
+      '<div class="version-header" onclick="toggleVersion(\'' + bodyId + '\')">' +
+      '<span class="version-number">v' + v.versionNumber + '</span>' +
+      '<span class="version-message">' + esc(v.commitMessage) + '</span>' +
+      '<span class="version-meta">' + (v.author ? '<a href="#" class="version-author-link" onclick="event.stopPropagation();openUserProfile(' + v.author.id + ');return false;">' + esc(v.author.username) + '</a>' : '?') + ' &middot; ' + new Date(v.createdAt).toLocaleString() + '</span>' +
+      (canDelete ? '<span class="version-delete" onclick="event.stopPropagation();deleteVersion(' + v.id + ')" title="Delete version"><i class="bi bi-x"></i></span>' : '') +
+      '</div>' +
+      '<div class="version-body" id="' + bodyId + '"><div id="dvTracks_' + v.id + '"><span class="text-muted">Loading tracks...</span></div></div>' +
+      '</div>';
+  }).join('');
+  versions.forEach(v => {
+    authFetch('/versions/' + v.id + '/tracks').then(r => r.json()).then(tracks => {
+      renderVersionTracks(v.id, tracks, projectTitle);
+    }).catch(() => {});
+  });
+}
+
+async function downloadTrackById(trackId, filename) {
+  try {
+    const res = await authFetch('/tracks/' + trackId + '/download');
+    if (!res.ok) throw new Error('Download error');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'track';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+function renderVersionTracks(versionId, tracks, projectTitle) {
+  const container = document.getElementById('dvTracks_' + versionId);
+  if (!container) return;
+  if (!tracks.length) { container.innerHTML = '<span style="color:var(--text-muted-2);">No tracks</span>'; return; }
+  container.innerHTML = tracks.map(t => {
+    const meta = [];
+    if (t.fileFormat) meta.push('<span class="track-tag">' + t.fileFormat.toUpperCase() + '</span>');
+    if (t.fileSize) meta.push('<span>' + fmtSize(t.fileSize) + '</span>');
+    if (t.bpm) meta.push('<span>' + t.bpm + ' BPM</span>');
+    if (t.musicalKey) meta.push('<span>' + esc(t.musicalKey) + '</span>');
+    const fname = esc(t.trackTitle) + '.' + (t.fileFormat || 'mp3');
+    return '<div class="version-track">' +
+      '<div class="version-track-info">' +
+      '<div class="version-track-title">' + esc(t.trackTitle) + '</div>' +
+      '<div class="version-track-meta">' + meta.join('') + '</div>' +
+      '</div>' +
+      '<div class="version-track-actions">' +
+      '<button class="btn btn-ghost btn-sm" onclick="playTrackById(' + t.trackId + ',\'' + esc(t.trackTitle) + '\',\'' + esc(projectTitle) + '\')" title="Play"><i class="bi bi-play-circle"></i></button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="downloadTrackById(' + t.trackId + ',\'' + fname + '\')" title="Download"><i class="bi bi-download"></i></button>' +
+
+      '</div>' +
+      '<div class="version-track-actions-hover">' +
+      '<span class="version-track-hover-play" onclick="playTrackById(' + t.trackId + ',\'' + esc(t.trackTitle) + '\',\'' + esc(projectTitle) + '\')"><i class="bi bi-play-fill"></i> Play</span>' +
+      '<span class="version-track-hover-play" onclick="downloadTrackById(' + t.trackId + ',\'' + fname + '\')"><i class="bi bi-download"></i> Download</span>' +
+      '</div></div>';
+  }).join('');
+}
+
+function toggleVersion(id) { const el = document.getElementById(id); if (el) el.classList.toggle('open'); }
+
+function toggleVersionForm() {
+  const f = document.getElementById('combinedForm');
+  f.style.display = f.style.display === 'none' ? '' : 'none';
+}
+
+// Combined version + track creation
+document.getElementById('combinedVersionForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true;
+  const file = document.getElementById('combinedFile').files[0];
+  if (!file) { notify('Select an audio file', 'error'); btn.disabled = false; return; }
+  const bpmVal = document.getElementById('combinedBpm').value;
+  if (bpmVal && (bpmVal < 1 || bpmVal > 500)) { notify('BPM must be between 1 and 500', 'error'); btn.disabled = false; return; }
+  const commitMsg = document.getElementById('combinedCommitMsg').value.trim();
+  if (!commitMsg) { notify('Enter a commit message', 'error'); btn.disabled = false; return; }
+  try {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('commitMessage', commitMsg);
+    const title = document.getElementById('combinedTrackTitle').value;
+    const bpm = document.getElementById('combinedBpm').value;
+    const key = document.getElementById('combinedKey').value;
+    if (title) fd.append('title', title);
+    if (bpm) fd.append('bpm', bpm);
+    if (key) fd.append('musicalKey', key);
+    const res = await authFetch('/projects/' + _detailProjectId + '/versions/with-track', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) { notify('Error: ' + (data.error || JSON.stringify(data)), 'error'); btn.disabled = false; return; }
+    notify('Version v' + data.versionNumber + ' created', 'success');
+    document.getElementById('combinedVersionForm').reset();
+    document.getElementById('combinedForm').style.display = 'none';
+    document.getElementById('showVersionFormBtn').style.display = '';
+    // refresh detail — merge button will appear if conditions are met
+    const [tracksRes, versionsRes] = await Promise.all([
+      authFetch('/projects/' + _detailProjectId + '/tracks'),
+      authFetch('/projects/' + _detailProjectId + '/versions')
+    ]);
+    const tracks = await tracksRes.json();
+    const versions = await versionsRes.json();
+    document.getElementById('detailTrackCount').textContent = tracks.length;
+    document.getElementById('detailVersionCount').textContent = versions.length;
+    renderDetailVersions(versions, _detailProjectData.title);
+    // re-evaluate merge button visibility
+    const p = _detailProjectData;
+    const uid = getUserId();
+    const mergeBtn = document.getElementById('detailMergeBtn');
+    const forkTime = p.forkedAt ? new Date(p.forkedAt).getTime() : 0;
+    const hasOwnVersion = versions.some(v =>
+      v.author && v.author.id === uid &&
+      v.createdAt && new Date(v.createdAt).getTime() > forkTime &&
+      !v.hasMergeRequest
+    );
+    if (p.sourceProjectId && p.author && p.author.id === uid && hasOwnVersion) {
+      mergeBtn.style.display = '';
+    } else {
+      mergeBtn.style.display = 'none';
+    }
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+  btn.disabled = false;
+});
+
+async function deleteVersion(versionId) {
+  if (!confirm('Delete this version? This action cannot be undone.')) return;
+  try {
+    const res = await authFetch('/versions/' + versionId, { method: 'DELETE' });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    notify('Version deleted', 'success');
+    openProjectDetail(_detailProjectId);
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+function editDetailProject() {
+  const p = _detailProjectData;
+  if (!p) return;
+  closeModal('projectDetailModal');
+  setTimeout(() => openEditProject(p.id, p.title, p.description||'', p.genre||''), 300);
+}
+function deleteDetailProject() {
+  closeModal('projectDetailModal');
+  setTimeout(() => deleteProject(_detailProjectId), 300);
+}
+async function forkCurrentProject() {
+  const p = _detailProjectData;
+  if (!p) return;
+  try {
+    const res = await authFetch('/projects/' + p.id + '/fork', { method: 'POST' });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.error || JSON.stringify(d)), 'error'); return; }
+    notify('Project forked to your account', 'success');
+    closeModal('projectDetailModal');
+    loadProjects();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+// ====================================================================
+// AUDIO PLAYER
+// ====================================================================
+const audio = document.getElementById('audioPlayer');
+let _currentAudioUrl = null;
+let _currentPlayingTrackId = null;
+
+function resetCardBtn() {
+  document.querySelectorAll('.project-card-play-btn').forEach(b => {
+    setCardBtn(b, false);
+  });
+}
+audio.addEventListener('loadedmetadata', () => {
+  document.getElementById('playerDuration').textContent = fmtTime(audio.duration);
+  document.getElementById('playerSeek').max = Math.floor(audio.duration) || 0;
+});
+audio.addEventListener('timeupdate', () => {
+  document.getElementById('playerCurrentTime').textContent = fmtTime(audio.currentTime);
+  if (audio.duration) document.getElementById('playerSeek').value = audio.currentTime;
+});
+audio.addEventListener('ended', () => { document.getElementById('playerPlayBtn').innerHTML = '<i class="bi bi-play-fill"></i>'; _currentPlayingTrackId = null; resetCardBtn(); });
+audio.addEventListener('play', () => { document.getElementById('playerPlayBtn').innerHTML = '<i class="bi bi-pause-fill"></i>'; });
+audio.addEventListener('pause', () => { document.getElementById('playerPlayBtn').innerHTML = '<i class="bi bi-play-fill"></i>'; if (audio.currentTime > 0 && !audio.ended) resetCardBtn(); });
+
+function fmtTime(s) { if (isNaN(s) || !s) return '0:00'; const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
+
+async function playTrack(trackId) {
+  return playTrackById(trackId, 'Track', '');
+}
+function setCardBtn(btn, playing) {
+  btn.innerHTML = playing ? '<i class="bi bi-pause-fill"></i> Pause' : '<i class="bi bi-play-fill"></i> Play';
+}
+function cardPlayToggle(trackId, trackTitle, projectTitle, el) {
+  const btn = el.querySelector('.project-card-play-btn');
+  if (_currentPlayingTrackId === trackId && !audio.paused) {
+    audio.pause();
+    setCardBtn(btn, false);
+    return;
+  }
+  playTrackById(trackId, trackTitle, projectTitle);
+  setCardBtn(btn, true);
+}
+async function playTrackById(trackId, trackTitle, projectTitle) {
+  if (_currentPlayingTrackId === trackId && !audio.paused) {
+    audio.pause();
+    return;
+  }
+  document.getElementById('playerTrackTitle').textContent = trackTitle;
+  document.getElementById('playerProjectName').textContent = projectTitle || '';
+  document.getElementById('playerBar').classList.add('show');
+  try {
+    if (_currentAudioUrl) { URL.revokeObjectURL(_currentAudioUrl); }
+    _currentPlayingTrackId = trackId;
+    const res = await authFetch('/tracks/' + trackId + '/download');
+    if (!res.ok) throw new Error('Load error');
+    const blob = await res.blob();
+    _currentAudioUrl = URL.createObjectURL(blob);
+    audio.src = _currentAudioUrl;
+    audio.volume = document.getElementById('playerVolume').value / 100;
+    audio.play();
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+function togglePlay() { if (audio.paused) audio.play(); else audio.pause(); }
+function seekAudio() { const v = parseFloat(document.getElementById('playerSeek').value); if (!isNaN(v)) audio.currentTime = v; }
+function setVolume() { audio.volume = document.getElementById('playerVolume').value / 100; }
+function closePlayer() {
+  audio.pause(); audio.src = '';
+  if (_currentAudioUrl) { URL.revokeObjectURL(_currentAudioUrl); _currentAudioUrl = null; }
+  _currentPlayingTrackId = null;
+  document.getElementById('playerBar').classList.remove('show');
+}
+
+// ====================================================================
+// USER PROFILE
+// ====================================================================
+let _viewedProfileUserId = null;
+
+async function openUserProfile(userId) {
+  _viewedProfileUserId = userId;
+  profilePage = 0;
+  profileLastPage = false;
+  try {
+    const [userRes, projRes] = await Promise.all([
+      authFetch('/users/' + userId),
+      authFetch('/projects/author/' + userId + '?page=0&size=' + PROJECT_PAGE_SIZE)
+    ]);
+    const user = await userRes.json();
+    const data = await projRes.json();
+    profileLastPage = data.last;
+    const projects = data.content || [];
+    document.getElementById('profileUsername').textContent = user.username;
+    document.getElementById('profileEmail').textContent = user.email || '';
+    const roleBadge = document.getElementById('profileRole');
+    roleBadge.textContent = user.role;
+    roleBadge.className = 'project-badge ' + (user.role === 'ADMIN' ? 'published' : 'draft');
+    const avatar = document.getElementById('profileAvatar');
+    if (user.avatarUrl) {
+      avatar.innerHTML = '<img src="' + user.avatarUrl + '" alt="" style="width:100%;height:100%;object-fit:cover">';
+    } else {
+      avatar.textContent = user.username.charAt(0).toUpperCase();
+    }
+    document.getElementById('profileBio').textContent = user.bio || '';
+    document.getElementById('profileBio').style.display = user.bio ? '' : 'none';
+    // social links
+    const socialContainer = document.getElementById('profileSocial');
+    socialContainer.innerHTML = '';
+    if (user.socialLinks) {
+      try {
+        const links = JSON.parse(user.socialLinks);
+        const socialMap = {
+          instagram: { icon: 'bi-instagram', url: v => 'https://instagram.com/' + v },
+          youtube: { icon: 'bi-youtube', url: v => v.startsWith('http') ? v : 'https://youtube.com/@' + v }
+        };
+        for (const [key, val] of Object.entries(links)) {
+          if (val && socialMap[key]) {
+            const s = socialMap[key];
+            socialContainer.innerHTML += '<a href="' + esc(s.url(val)) + '" target="_blank" class="btn btn-ghost btn-sm" style="font-size:.7rem;"><i class="bi ' + s.icon + '"></i> ' + esc(val) + '</a>';
+          }
+        }
+      } catch (e) { /* ignore invalid JSON */ }
+    }
+    const uid = getUserId();
+    document.getElementById('profileEditBtn').style.display = uid === userId ? '' : 'none';
+    renderProjects(projects, 'profileProjectsContainer');
+    updateProfileNav();
+    document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.app-tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('profileTab').style.display = '';
+    document.getElementById('profileTab').textContent = user.username;
+    document.getElementById('profileTab').classList.add('active');
+    document.getElementById('profilePanel').classList.add('active');
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+async function openEditProfile() {
+  const id = _viewedProfileUserId;
+  if (!id) return;
+  try {
+    const res = await authFetch('/users/' + id);
+    if (!res.ok) return;
+    const user = await res.json();
+    document.getElementById('editProfileBio').value = user.bio || '';
+    const links = user.socialLinks ? JSON.parse(user.socialLinks) : {};
+    document.getElementById('editSocialInstagram').value = links.instagram || '';
+    document.getElementById('editSocialYoutube').value = links.youtube || '';
+    const preview = document.getElementById('editAvatarPreview');
+    const img = document.getElementById('editAvatarPreviewImg');
+    if (user.avatarUrl) {
+      preview.style.display = 'none';
+      img.src = user.avatarUrl;
+      img.classList.remove('hidden');
+    } else {
+      preview.style.display = '';
+      img.classList.add('hidden');
+    }
+  } catch (e) { /* ignore */ }
+  openModal('editProfileModal');
+}
+
+function getSocialLinks() {
+  const links = {};
+  const ig = document.getElementById('editSocialInstagram').value.trim(); if (ig) links.instagram = ig;
+  const yt = document.getElementById('editSocialYoutube').value.trim(); if (yt) links.youtube = yt;
+  return Object.keys(links).length ? JSON.stringify(links) : null;
+}
+async function saveProfile() {
+  const id = _viewedProfileUserId;
+  if (!id) return;
+  const body = {
+    bio: document.getElementById('editProfileBio').value || null,
+    socialLinks: getSocialLinks()
+  };
+  try {
+    const res = await authFetch('/users/' + id, { method: 'PUT', body: JSON.stringify(body) });
+    if (!res.ok) { const d = await res.json(); notify('Error: ' + (d.message || d.error || JSON.stringify(d)), 'error'); return; }
+    const avatarFile = document.getElementById('editProfileAvatar').files[0];
+    if (avatarFile) {
+      const fd = new FormData();
+      fd.append('file', avatarFile);
+      await authFetch('/users/' + id + '/avatar', { method: 'POST', body: fd });
+    }
+    closeModal('editProfileModal');
+    notify('Profile updated', 'success');
+    openUserProfile(id);
+  } catch (err) { notify('Error: ' + err.message, 'error'); }
+}
+
+// ====================================================================
+// THEME TOGGLE
+// ====================================================================
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.classList.toggle('theme-light');
+  localStorage.setItem('sf_theme', isLight ? 'light' : 'dark');
+  const icon = document.querySelector('#themeToggle i');
+  if (icon) icon.className = isLight ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+}
+function initTheme() {
+  const saved = localStorage.getItem('sf_theme');
+  if (saved === 'light') {
+    document.documentElement.classList.add('theme-light');
+    const icon = document.querySelector('#themeToggle i');
+    if (icon) icon.className = 'bi bi-sun-fill';
+  }
+}
+
+// ====================================================================
+// START
+// ====================================================================
+initTheme();
+if (getToken()) { showApp(); loadProjects(); }
+else { showAuth(); }
+</script>
+</body>
+</html>
+
+

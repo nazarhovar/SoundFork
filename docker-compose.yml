@@ -1,0 +1,110 @@
+version: "3.8"
+
+networks:
+  soundfork-net:
+    driver: bridge
+
+services:
+  # ─── Infrastructure ───────────────────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.9.0
+    container_name: soundfork-zookeeper
+    networks:
+      - soundfork-net
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.9.0
+    container_name: soundfork-kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - soundfork-net
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  postgres-main:
+    image: postgres:17
+    container_name: soundfork-main-db
+    networks:
+      - soundfork-net
+    environment:
+      POSTGRES_DB: soundfork
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
+    volumes:
+      - postgres_main_data:/var/lib/postgresql/data
+
+  postgres-notifications:
+    image: postgres:17
+    container_name: soundfork-notifications-db
+    networks:
+      - soundfork-net
+    environment:
+      POSTGRES_DB: soundfork_notifications
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
+    volumes:
+      - postgres_notifications_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: soundfork-redis
+    networks:
+      - soundfork-net
+
+  # ─── Backend services ─────────────────────────────────────
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: soundfork-notifications
+    depends_on:
+      - postgres-notifications
+      - kafka
+    networks:
+      - soundfork-net
+    environment:
+      DB_URL: jdbc:postgresql://postgres-notifications:5432/soundfork_notifications
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  soundfork:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soundfork-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-main
+      - redis
+      - kafka
+      - notification-service
+    networks:
+      - soundfork-net
+    environment:
+      DB_URL: jdbc:postgresql://postgres-main:5432/soundfork
+      DB_USERNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      REDIS_HOST: redis
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      NOTIFICATION_SERVICE_URL: http://notification-service:8081
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      CACHE_TYPE: redis
+      UPLOAD_DIR: /app/uploads
+      MAIL_USERNAME: ${MAIL_USERNAME:-nazar.govor@gmail.com}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-weeu ckii rabp osdu}
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  postgres_main_data:
+  postgres_notifications_data:
