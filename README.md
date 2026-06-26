@@ -11,7 +11,7 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 
 <p align="center">
   <a href="screenshots/main.jpg"><img src="screenshots/main.jpg" alt="Main page" width="45%"></a>
-  <a href="screenshots/project-detail.png"><img src="screenshots/project-detail.jpg.png" alt="Project detail" width="45%"></a>
+  <a href="screenshots/project-detail.jpg.png"><img src="screenshots/project-detail.jpg.png" alt="Project detail" width="45%"></a>
 </p>
 <p align="center">
   <a href="screenshots/merge-request.jpg"><img src="screenshots/merge-request.jpg" alt="Merge request" width="45%"></a>
