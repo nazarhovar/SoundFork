@@ -2,8 +2,7 @@
 
 A collaborative music production platform — like GitHub for music producers. Create projects, upload tracks, manage versions, fork other people's projects, and submit merge requests to combine your work.
 
-Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authentication, Redis caching, and Apache Kafka for asynchronous notifications.
-
+Built with **Spring Boot 3.5**
 ## Screenshots
 
 <details>
@@ -15,26 +14,26 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 </p>
 <p align="center">
   <a href="screenshots/new-version.jpg"><img src="screenshots/new-version.jpg" alt="New version" width="45%"></a>
-<a href="screenshots/approve%20or%20reject.jpg"><img src="screenshots/approve%20or%20reject.jpg" alt="Approve or reject" width="45%"></a>
+<a href="screenshots/approve-reject.jpg"><img src="screenshots/approve-reject.jpg" alt="Approve reject" width="45%"></a>
 </p>
 
 </details>
 
 ---
 
-## Tech Stack
+## Stack
 
 | Layer | Technology |
 |---|---|
 | Backend | Java 17, Spring Boot 3.5, Spring Security, Spring Data JPA, Hibernate 7 |
 | Database | PostgreSQL 17 (main + notifications) |
-| Cache | Redis 7 (Lettuce, GenericJackson2JsonRedisSerializer, 10-min TTL) |
+| Cache | Redis 7 (10-min TTL) |
 | Messaging | Apache Kafka, Zookeeper |
-| Auth | Custom JWT (HMAC-SHA256) |
+| Auth | JWT (HMAC-SHA256) |
 | API | REST, SpringDoc OpenAPI (Swagger UI) |
 | Build | Maven, Lombok |
-| Frontend | Vanilla JS, CSS custom properties (dark theme) |
-| Infrastructure | Docker Compose |
+| Frontend | Vanilla JS, CSS  |
+| Infrastructure | Docker  |
 
 ---
 
@@ -44,7 +43,7 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 ┌──────────────────────┐         ┌─────────────────────────┐
 │   SoundFork App      │  Kafka  │   Notification Service  │
 │   (:8080)            │────────▶│   (:8081)               │
-│   Spring Boot + JPA  │◀── REST │   Spring Boot + JPA     │
+│                      │◀── REST │                         │
 └──────────┬───────────┘         └────────────┬────────────┘
            │                                  │
            ▼                                  ▼
@@ -65,8 +64,8 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 ## Features
 
 - **User management** — registration, login, JWT-based auth, role-based access (USER/ADMIN), avatar upload with auto-resize
-- **Projects** — CRUD with cover images, pagination, Redis-cached listing, fork with source tracking
-- **Tracks** — upload/download audio files (mp3, wav, flac, ogg, aac, wma, m4a), format validation, BPM and musical key metadata
+- **Projects** — CRUD with cover images, pagination, Redis-cached listing
+- **Tracks** — upload/download audio files (mp3, wav, flac, ogg, aac, wma, m4a)
 - **Versions** — snapshot-based versioning: each version captures the exact set of tracks at a point in time, with parent-version tracking
 - **Merge requests** — propose changes from one project to another; approval automatically copies the source version and all its tracks into the target project
 - **Notifications** — event-driven via Kafka, dedicated microservice with its own database
@@ -76,33 +75,19 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 - **Dark theme** — custom CSS variables, smooth dark-only UI
 
 ---
-
 ## Quick Start
 
 ### Prerequisites
 
-- Java 17+
-- Docker Desktop (for PostgreSQL, Redis, Kafka)
-- Maven (or use `mvnw`)
+- Docker Desktop (for PostgreSQL, Redis, Kafka, app)
 
-### Run
+### Run (everything in Docker)
 
 ```bash
-# Start infrastructure
-docker compose up -d
-
-# Build and run
-./mvnw spring-boot:run
-```
-
-Open `http://localhost:8080`, register a new account, and start creating projects.
-
-### Full Deployment
-
-```bash
-# Build all services and start with infrastructure
+# Build and start all services (app + DB + Redis + Kafka)
 docker compose up -d --build
 ```
+Open `http://localhost:8080` and register a new account.
 
 ---
 
@@ -151,42 +136,8 @@ notification-service/   Dedicated microservice for notifications
 ├── src/                Spring Boot app, own DB, Kafka consumer
 └── Dockerfile
 
-nginx/                  Nginx config for production (SSL, reverse proxy)
+nginx/                  Production reverse proxy with SSL (Let's Encrypt)
 docker-compose.yml      All services (DB x2, Redis, Kafka, ZK, apps)
 deploy.sh               Production deployment script
 ```
 
----
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DB_URL` | `jdbc:postgresql://localhost:5432/soundfork` | Main database |
-| `DB_USERNAME` | `postgres` | Database user |
-| `DB_PASSWORD` | `root` | Database password |
-| `JWT_SECRET` | `soundfork-secret-key-change-in-production` | JWT signing key |
-| `CACHE_TYPE` | `redis` | Cache provider (`redis` or `simple`) |
-| `REDIS_HOST` | `localhost` | Redis host |
-| `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Kafka brokers |
-| `MAIL_USERNAME` | *(empty)* | Gmail SMTP user |
-| `MAIL_PASSWORD` | *(empty)* | Gmail app password |
-| `NOTIFICATION_SERVICE_URL` | `http://localhost:8081` | Notification service |
-
----
-
-## Entity Model
-
-- **User** — id, username, email, password, role, avatar, social links
-- **Project** — id, title, description, genre, cover, author, sourceProject (for forks), forkedAt
-- **Track** — id, title, file, fileSize, format, bpm, musicalKey, project
-- **Version** — id, project, parentVersion, versionNumber, commitMessage, author
-- **VersionTrack** — join table linking versions to tracks
-- **MergeRequest** — id, sourceVersion, targetProject, author, status (PENDING/APPROVED/REJECTED), message
-- **Notification** — id, user, type, message, isRead, createdAt
-
----
-
-## License
-
-Portfolio project.
