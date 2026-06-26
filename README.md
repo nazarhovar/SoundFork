@@ -1,6 +1,6 @@
 # SoundFork
 
-A collaborative music production platform — like GitHub for music producers. Create projects, upload tracks, manage versions, fork other people's projects, and submit merge requests to combine your work.
+A collaborative music production platform. Create projects, upload tracks, manage versions, fork other people's projects, and submit merge requests to combine your work.
 
 Built with **Spring Boot 3.5**
 ## Screenshots
@@ -79,15 +79,37 @@ Built with **Spring Boot 3.5**
 
 ### Prerequisites
 
-- Docker Desktop (for PostgreSQL, Redis, Kafka, app)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/Mac) or Docker + Compose (Linux)
 
-### Run (everything in Docker)
+### Setup & Run
 
 ```bash
-# Build and start all services (app + DB + Redis + Kafka)
+# 1. Clone
+git clone https://github.com/nazarhovar/SoundFork.git
+cd SoundFork
+
+# 2. Create .env (optional — needed only for email notifications)
+cp .env.example .env
+
+# 3. Build and start everything
 docker compose up -d --build
 ```
-Open `http://localhost:8080` and register a new account.
+
+Open **http://localhost:8080** after waiting 1-2 minutes.
+
+### First steps
+
+1. Register a new account
+2. Create a project
+3. Upload a track (mp3, wav, flac, ogg, aac, wma, m4a)
+4. Create a version to save the current state
+5. Fork another project and create a merge request
+
+### Stop
+
+```bash
+docker compose down
+```
 
 ---
 
@@ -132,12 +154,10 @@ src/main/java/com/SoundFork/SoundFork/
 ├── notification/     Kafka event producer, REST proxy
 └── SoundForkApplication.java
 
-notification-service/   Dedicated microservice for notifications
-├── src/                Spring Boot app, own DB, Kafka consumer
+notification-service/   Microservice for notifications
+├── src/                Spring Boot app, DB, Kafka consumer
 └── Dockerfile
 
-nginx/                  Production reverse proxy with SSL (Let's Encrypt)
-docker-compose.yml      All services (DB x2, Redis, Kafka, ZK, apps)
-deploy.sh               Production deployment script
+docker-compose.yml      All services (DB x2, Redis, Kafka, ZK, soundfork, notification-service)
 ```
 
