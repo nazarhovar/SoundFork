@@ -1,40 +1,51 @@
-HELP.md
+### Build ###
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.class
+*.jar
+*.war
+*.ear
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
+### IDE ###
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
 .project
+.classpath
 .settings
+.factorypath
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
+.apt_generated
+/nbproject/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
-
-### Environment & Secrets ###
+### Environment ###
 .env
+.env.local
+*.env
 
 ### Runtime ###
 uploads/
 *.log
+*.db
+*.sqlite
+
+### OS ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+### Docker ###
+docker-compose.override.yml
+
+### Misc ###
+HELP.md
+*.bak
+*.tmp

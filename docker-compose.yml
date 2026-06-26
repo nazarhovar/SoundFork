@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   soundfork-net:
     driver: bridge
@@ -81,6 +79,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: soundfork-app
+    init: true
     ports:
       - "8080:8080"
     depends_on:

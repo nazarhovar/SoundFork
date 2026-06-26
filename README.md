@@ -4,6 +4,25 @@ A collaborative music production platform — like GitHub for music producers. C
 
 Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authentication, Redis caching, and Apache Kafka for asynchronous notifications.
 
+## Screenshots
+
+<details>
+<summary>Click to view screenshots</summary>
+
+<p align="center">
+  <a href="screenshots/main.jpg"><img src="screenshots/main.jpg" alt="Main page" width="45%"></a>
+  <a href="screenshots/project-detail.png"><img src="screenshots/project-detail.jpg.png" alt="Project detail" width="45%"></a>
+</p>
+<p align="center">
+  <a href="screenshots/merge-request.jpg"><img src="screenshots/merge-request.jpg" alt="Merge request" width="45%"></a>
+  <a href="screenshots/new-version.jpg"><img src="screenshots/new-version.jpg" alt="New version" width="45%"></a>
+</p>
+<p align="center">
+  <a href="screenshots/approve%20or%20reject.jpg"><img src="screenshots/approve%20or%20reject.jpg" alt="Approve or reject" width="45%"></a>
+</p>
+
+</details>
+
 ---
 
 ## Tech Stack
@@ -30,8 +49,8 @@ Built with **Spring Boot 3.5**, featuring event-driven microservices, JWT authen
 │   (:8080)            │────────▶│   (:8081)               │
 │   Spring Boot + JPA  │◀── REST │   Spring Boot + JPA     │
 └──────────┬───────────┘         └────────────┬────────────┘
-           │                                   │
-           ▼                                   ▼
+           │                                  │
+           ▼                                  ▼
 ┌──────────────────────┐         ┌─────────────────────────┐
 │   PostgreSQL (main)  │         │   PostgreSQL (notifs)   │
 │   soundfork DB       │         │   soundfork_notifs DB   │

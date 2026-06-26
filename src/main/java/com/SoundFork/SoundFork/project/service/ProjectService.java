@@ -177,6 +177,9 @@ public class ProjectService {
         if (source.getCoverArtPath() != null && !source.getCoverArtPath().isEmpty()) {
             try {
                 Path sourceCover = Paths.get(source.getCoverArtPath());
+                if (!sourceCover.isAbsolute()) {
+                    sourceCover = Paths.get(uploadDir, source.getCoverArtPath());
+                }
                 if (Files.exists(sourceCover)) {
                     Path destDir = Paths.get(uploadDir, "covers", savedFork.getId().toString());
                     Files.createDirectories(destDir);
