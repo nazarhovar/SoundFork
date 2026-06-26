@@ -1855,7 +1855,7 @@ async function openUserProfile(userId) {
             socialContainer.innerHTML += '<a href="' + esc(s.url(val)) + '" target="_blank" class="btn btn-ghost btn-sm" style="font-size:.7rem;"><i class="bi ' + s.icon + '"></i> ' + esc(val) + '</a>';
           }
         }
-      } catch (e) { /* ignore invalid JSON */ }
+      } catch (e) {}
     }
     const uid = getUserId();
     document.getElementById('profileEditBtn').style.display = uid === userId ? '' : 'none';
@@ -1891,7 +1891,7 @@ async function openEditProfile() {
       preview.style.display = '';
       img.classList.add('hidden');
     }
-  } catch (e) { /* ignore */ }
+  } catch (e) {}
   openModal('editProfileModal');
 }
 

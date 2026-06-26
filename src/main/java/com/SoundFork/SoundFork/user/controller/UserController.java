@@ -38,7 +38,6 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@Valid @RequestBody CreateUserRequest request) {
-        // Передаём запрос в сервис, возвращаем ответ
         return userService.create(request);
     }
 
