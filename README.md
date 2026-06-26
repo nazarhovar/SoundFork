@@ -40,6 +40,12 @@ Built with **Spring Boot 3.5**
 ## Architecture
 
 ```
+┌──────────────────────┐
+│      Browser         │
+│   (http :8080)       │
+└──────────┬───────────┘
+           │ HTTP (REST + static)
+           ▼
 ┌──────────────────────┐         ┌─────────────────────────┐
 │   SoundFork App      │  Kafka  │   Notification Service  │
 │   (:8080)            │────────▶│   (:8081)               │
