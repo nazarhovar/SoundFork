@@ -6,11 +6,11 @@ import com.SoundFork.SoundFork.common.exception.UserNotFoundException;
 import com.SoundFork.SoundFork.common.util.ImageUtils;
 import com.SoundFork.SoundFork.mergerequest.repository.MergeRequestRepository;
 import com.SoundFork.SoundFork.version.entity.VersionTrack;
+import com.SoundFork.SoundFork.track.entity.Track;
 import com.SoundFork.SoundFork.project.dto.ProjectResponse;
 import com.SoundFork.SoundFork.project.dto.UpdateProjectRequest;
 import com.SoundFork.SoundFork.project.entity.Project;
 import com.SoundFork.SoundFork.project.repository.ProjectRepository;
-import com.SoundFork.SoundFork.track.entity.Track;
 import com.SoundFork.SoundFork.track.repository.TrackRepository;
 import com.SoundFork.SoundFork.user.entity.User;
 import com.SoundFork.SoundFork.user.repository.UserRepository;
@@ -33,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +92,8 @@ public class ProjectService {
     @Cacheable(value = "projects", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public PageResponse<ProjectResponse> getAll(Pageable pageable) {
         Page<Project> page = projectRepository.findAll(pageable);
-        return PageResponse.from(page.map(this::buildProjectResponse));
+        Map<Long, Track> latestTrackByProject = loadLatestTracks(page.getContent());
+        return PageResponse.from(page.map(p -> buildProjectResponse(p, latestTrackByProject.get(p.getId()))));
     }
 
     @Transactional(readOnly = true)
@@ -101,7 +103,8 @@ public class ProjectService {
         }
 
         Page<Project> page = projectRepository.findByAuthorId(authorId, pageable);
-        return PageResponse.from(page.map(this::buildProjectResponse));
+        Map<Long, Track> latestTrackByProject = loadLatestTracks(page.getContent());
+        return PageResponse.from(page.map(p -> buildProjectResponse(p, latestTrackByProject.get(p.getId()))));
     }
 
     @Transactional
@@ -264,7 +267,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void deleteInternal(Long id) {
+    private void deleteInternal(Long id) {
         List<Long> forkIds = projectRepository.findIdsBySourceProjectId(id);
         for (Long forkId : forkIds) {
             deleteInternal(forkId);
@@ -284,28 +287,38 @@ public class ProjectService {
     }
 
     private ProjectResponse buildProjectResponse(Project project) {
+        return buildProjectResponse(project, null);
+    }
+
+    private ProjectResponse buildProjectResponse(Project project, Track latestTrack) {
         Long sourceId = null;
         String sourceTitle = null;
         if (project.getSourceProject() != null) {
             sourceId = project.getSourceProject().getId();
             sourceTitle = project.getSourceProject().getTitle();
         }
+
         Long latestTrackId = null;
         String latestTrackTitle = null;
-        try {
-            java.util.Optional<Version> optLv = versionRepository
-                    .findTopByProjectIdOrderByVersionNumberDesc(project.getId());
-            if (optLv.isPresent()) {
-                List<VersionTrack> vts = versionTrackRepository
-                        .findByVersionIdOrderByTrackOrderAsc(optLv.get().getId());
-                if (!vts.isEmpty()) {
-                    Track t = vts.get(0).getTrack();
-                    latestTrackId = t.getId();
-                    latestTrackTitle = t.getTitle();
+        if (latestTrack != null) {
+            latestTrackId = latestTrack.getId();
+            latestTrackTitle = latestTrack.getTitle();
+        } else {
+            try {
+                java.util.Optional<Version> optLv = versionRepository
+                        .findTopByProjectIdOrderByVersionNumberDesc(project.getId());
+                if (optLv.isPresent()) {
+                    List<VersionTrack> vts = versionTrackRepository
+                            .findByVersionIdOrderByTrackOrderAsc(optLv.get().getId());
+                    if (!vts.isEmpty()) {
+                        Track t = vts.get(0).getTrack();
+                        latestTrackId = t.getId();
+                        latestTrackTitle = t.getTitle();
+                    }
                 }
+            } catch (Exception e) {
+                log.warn("Failed to resolve latest track for project {}: {}", project.getId(), e.getMessage());
             }
-        } catch (Exception e) {
-            log.warn("Failed to resolve latest track for project {}: {}", project.getId(), e.getMessage());
         }
 
         return ProjectResponse.builder()
@@ -326,5 +339,35 @@ public class ProjectService {
                 .latestTrackId(latestTrackId)
                 .latestTrackTitle(latestTrackTitle)
                 .build();
+    }
+
+    private Map<Long, Track> loadLatestTracks(List<Project> projects) {
+        if (projects.isEmpty()) return Map.of();
+
+        List<Long> projectIds = projects.stream().map(Project::getId).toList();
+
+        List<Object[]> rows = versionRepository.findLatestVersionIdAndProjectIdByProjectIds(projectIds);
+        if (rows.isEmpty()) return Map.of();
+
+        Map<Long, Long> projectByVersionId = new HashMap<>();
+        List<Long> versionIds = new ArrayList<>();
+        for (Object[] row : rows) {
+            Long versionId = (Long) row[0];
+            Long projectId = (Long) row[1];
+            if (!projectByVersionId.containsKey(versionId)) {
+                projectByVersionId.put(versionId, projectId);
+                versionIds.add(versionId);
+            }
+        }
+
+        List<VersionTrack> vts = versionTrackRepository.findByVersionIdInWithTrackOrderByTrackOrder(versionIds);
+        Map<Long, Track> latestTrackByProject = new HashMap<>();
+        for (VersionTrack vt : vts) {
+            Long projectId = projectByVersionId.get(vt.getVersion().getId());
+            if (projectId != null && !latestTrackByProject.containsKey(projectId)) {
+                latestTrackByProject.put(projectId, vt.getTrack());
+            }
+        }
+        return latestTrackByProject;
     }
 }

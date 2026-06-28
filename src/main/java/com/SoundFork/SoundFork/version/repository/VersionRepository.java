@@ -4,6 +4,7 @@ import com.SoundFork.SoundFork.version.entity.Version;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,4 +32,8 @@ public interface VersionRepository extends JpaRepository<Version, Long> {
     void deleteByIdIn(List<Long> ids);
 
     List<Version> findByAuthorId(Long authorId);
+
+    @Query("SELECT v.id, v.project.id FROM Version v WHERE v.project.id IN :projectIds " +
+           "AND v.versionNumber = (SELECT MAX(v2.versionNumber) FROM Version v2 WHERE v2.project.id = v.project.id)")
+    List<Object[]> findLatestVersionIdAndProjectIdByProjectIds(@Param("projectIds") List<Long> projectIds);
 }

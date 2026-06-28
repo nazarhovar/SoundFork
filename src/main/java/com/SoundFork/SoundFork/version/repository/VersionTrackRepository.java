@@ -4,6 +4,7 @@ import com.SoundFork.SoundFork.version.entity.VersionTrack;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface VersionTrackRepository extends JpaRepository<VersionTrack, Long
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM VersionTrack vt WHERE vt.version.id IN :versionIds")
     void deleteByVersionIdIn(List<Long> versionIds);
+
+    @Query("SELECT vt FROM VersionTrack vt JOIN FETCH vt.track WHERE vt.version.id IN :versionIds ORDER BY vt.trackOrder")
+    List<VersionTrack> findByVersionIdInWithTrackOrderByTrackOrder(@Param("versionIds") List<Long> versionIds);
 }

@@ -73,7 +73,6 @@ public class TrackService {
         return buildTrackResponse(savedTrack);
     }
 
-    @Transactional(readOnly = true)
     public Resource getFileAsResource(Long id) {
         Track track = trackRepository.findById(id)
                 .orElseThrow(() -> new TrackNotFoundException(id));
